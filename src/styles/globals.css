@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  :root {
+    /* === LIGHT THEME: "Morning Steppe" === */
+    
+    /* Backgrounds - Soft warm paper-like foundation */
+    --background: 30 20% 98%;           /* #FDFBF9 - Warm off-white */
+    --foreground: 240 4% 16%;           /* #28282B - Deep warm iron-gray */
+
+    /* Surfaces - Pure white for cards with "lift" */
+    --card: 0 0% 100%;                  /* #FFFFFF - Pure white cards */
+    --card-foreground: 240 4% 16%;      /* #28282B - Primary text */
+    
+    --popover: 0 0% 100%;               /* #FFFFFF */
+    --popover-foreground: 240 4% 16%;   /* #28282B */
+
+    /* Primary Actions - Deep charcoal */
+    --primary: 240 4% 16%;              /* #28282B */
+    --primary-foreground: 0 0% 100%;    /* #FFFFFF */
+
+    /* Secondary Elements - Subtle warm gray */
+    --secondary: 30 20% 96%;            /* #F6F4F2 - Surface hover */
+    --secondary-foreground: 240 4% 16%; /* #28282B */
+
+    /* Muted/Subtle - For secondary text */
+    --muted: 30 20% 96%;                /* #F6F4F2 */
+    --muted-foreground: 240 4% 46%;     /* #71717A - Secondary text */
+
+    /* Accent - "Antique Wheat" Gold */
+    --accent: 42 68% 48%;               /* #CD9C26 - Rich mature gold */
+    --accent-foreground: 0 0% 100%;     /* #FFFFFF */
+
+    /* Destructive/Error */
+    --destructive: 0 84.2% 60.2%;       /* #E74C3C */
+    --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+
+    /* Borders - Subtle warm */
+    --border: 30 10% 90%;               /* #E6E4E2 - Subtle border */
+    --input: 30 10% 90%;                /* #E6E4E2 */
+    --ring: 42 68% 48%;                 /* #CD9C26 - Gold focus ring */
+
+    /* Chart Colors */
+    --chart-1: 42 68% 48%;              /* Gold */
+    --chart-2: 173 58% 39%;             /* Teal */
+    --chart-3: 197 37% 24%;             /* Navy */
+    --chart-4: 27 87% 67%;              /* Orange */
+    --chart-5: 240 4% 46%;              /* Gray */
+
+    --radius: 0.5rem;
+  }
+  .dark {
+    /* === DARK THEME: "Midnight Kyiv" === */
+    
+    /* Backgrounds - Rich deep charcoal, NOT pure black */
+    --background: 240 5% 10%;           /* #18181B - Deep charcoal */
+    --foreground: 30 10% 96%;           /* #F5F3F0 - Bone white (avoids halation) */
+
+    /* Surfaces - Lighter elevation with warmth */
+    --card: 240 4% 16%;                 /* #27272A - Elevated surface */
+    --card-foreground: 30 10% 96%;      /* #F5F3F0 */
+    
+    --popover: 240 4% 16%;              /* #27272A */
+    --popover-foreground: 30 10% 96%;   /* #F5F3F0 */
+
+    /* Primary Actions - Bright for contrast */
+    --primary: 30 10% 96%;              /* #F5F3F0 */
+    --primary-foreground: 240 5% 10%;   /* #18181B */
+
+    /* Secondary Elements - Subtle elevation */
+    --secondary: 240 4% 20%;            /* #323236 - Surface hover */
+    --secondary-foreground: 30 10% 96%; /* #F5F3F0 */
+
+    /* Muted/Subtle - For secondary text */
+    --muted: 240 4% 20%;                /* #323236 */
+    --muted-foreground: 240 5% 65%;     /* #9E9EA3 - Secondary text */
+
+    /* Accent - "Luminous Amber" (glows in dark) */
+    --accent: 45 90% 60%;               /* #F5C647 - Glowing amber */
+    --accent-foreground: 240 5% 10%;    /* #18181B - Dark text on gold */
+
+    /* Destructive/Error */
+    --destructive: 0 62.8% 30.6%;       /* #7C1D13 */
+    --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+
+    /* Borders - Subtle definition */
+    --border: 240 4% 24%;               /* #3D3D40 - Subtle border */
+    --input: 240 4% 24%;                /* #3D3D40 */
+    --ring: 45 90% 60%;                 /* #F5C647 - Gold focus ring */
+
+    /* Chart Colors - Vibrant for dark mode */
+    --chart-1: 45 90% 60%;              /* Amber */
+    --chart-2: 160 60% 45%;             /* Green */
+    --chart-3: 220 70% 50%;             /* Blue */
+    --chart-4: 280 65% 60%;             /* Purple */
+    --chart-5: 340 75% 55%;             /* Pink */
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* === Premium Shadow System === */
+@layer utilities {
+  /* Light Theme: Soft, diffused, warm shadows for depth */
+  .shadow-elegant {
+    box-shadow: 0 4px 20px -2px rgba(40, 40, 43, 0.08);
+  }
+  
+  .shadow-elegant-lg {
+    box-shadow: 0 10px 40px -4px rgba(40, 40, 43, 0.12);
+  }
+  
+  .shadow-elegant-xl {
+    box-shadow: 0 20px 60px -8px rgba(40, 40, 43, 0.15);
+  }
+
+  /* Dark Theme: Use subtle borders instead of shadows */
+  .dark .shadow-elegant,
+  .dark .shadow-elegant-lg,
+  .dark .shadow-elegant-xl {
+    box-shadow: none;
+  }
+}
