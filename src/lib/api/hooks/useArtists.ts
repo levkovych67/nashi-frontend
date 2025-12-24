@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { apiClient } from '../client';
 import type { components } from '../generated/types';
 
@@ -22,6 +22,28 @@ export function useArtists(params?: ArtistsListParams) {
         'pageable.size': params?.size || 20,
         region: params?.region,
       }),
+  });
+}
+
+interface InfiniteArtistsParams {
+  region?: Region;
+  size?: number;
+}
+
+export function useInfiniteArtists(params?: InfiniteArtistsParams) {
+  return useInfiniteQuery({
+    queryKey: ['artists', 'infinite', params],
+    queryFn: ({ pageParam = 0 }) =>
+      apiClient.get<PageArtistDTOMinified>('/api/v1/artists', {
+        'pageable.page': pageParam,
+        'pageable.size': params?.size || 20,
+        region: params?.region,
+      }),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.last) return undefined;
+      return (lastPage.number ?? 0) + 1;
+    },
+    initialPageParam: 0,
   });
 }
 

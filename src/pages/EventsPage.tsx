@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { EventCard } from '@/features/events/components/EventCard';
 import { useEvents } from '@/lib/api/hooks/useEvents';
 import { useRegions } from '@/lib/api/hooks/useLookup';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, ExternalLink } from 'lucide-react';
@@ -12,11 +13,36 @@ import type { components } from '@/lib/api/generated/types';
 type EventResponseDTO = components['schemas']['EventResponseDTO'];
 type Region = components['schemas']['EventCreateRequestDTO']['region'];
 
+const EVENTS_PER_PAGE = 12;
+
 export function EventsPage() {
   const [selectedRegion, setSelectedRegion] = useState<Region | undefined>();
   const [selectedEvent, setSelectedEvent] = useState<EventResponseDTO | null>(null);
+  const [displayCount, setDisplayCount] = useState(EVENTS_PER_PAGE);
+  
   const { data: regions } = useRegions();
-  const { data: events, isLoading, error } = useEvents(selectedRegion);
+  const { data: allEvents, isLoading, error } = useEvents(selectedRegion);
+
+  // Client-side pagination: show events progressively
+  const visibleEvents = useMemo(
+    () => allEvents?.slice(0, displayCount) || [],
+    [allEvents, displayCount]
+  );
+
+  const hasMore = allEvents && displayCount < allEvents.length;
+
+  // Intersection Observer for infinite scroll
+  const sentinelRef = useInfiniteScroll({
+    onLoadMore: () => setDisplayCount((prev) => prev + EVENTS_PER_PAGE),
+    hasMore: !!hasMore,
+    isLoading: false,
+    rootMargin: '200px',
+  });
+
+  // Reset display count when region changes
+  useMemo(() => {
+    setDisplayCount(EVENTS_PER_PAGE);
+  }, [selectedRegion]);
 
   const eventDate = selectedEvent?.dateTime ? new Date(selectedEvent.dateTime) : null;
 
@@ -33,8 +59,11 @@ export function EventsPage() {
           <select
             id="region-filter"
             value={selectedRegion || ''}
-            onChange={(e) => setSelectedRegion(e.target.value || undefined)}
-            className="px-3 py-2 bg-background border border-accent/20 rounded-soft text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+            onChange={(e) => {
+              setSelectedRegion(e.target.value || undefined);
+              setDisplayCount(EVENTS_PER_PAGE);
+            }}
+            className="px-3 py-2 bg-background border border-accent/20 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent transition-all"
           >
             <option value="">Усі області</option>
             {regions?.map((region) => (
@@ -65,23 +94,44 @@ export function EventsPage() {
       )}
 
       {/* Empty State */}
-      {!isLoading && !error && (!events || events.length === 0) && (
+      {!isLoading && !error && (!allEvents || allEvents.length === 0) && (
         <div className="text-center py-20">
           <p className="text-lg text-muted-foreground">Подій не знайдено</p>
         </div>
       )}
 
       {/* Events Grid */}
-      {events && events.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
-            <EventCard
-              key={event.id}
-              event={event}
-              onViewDetails={setSelectedEvent}
-            />
-          ))}
-        </div>
+      {visibleEvents.length > 0 && (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visibleEvents.map((event) => (
+              <EventCard
+                key={event.id}
+                event={event}
+                onViewDetails={setSelectedEvent}
+              />
+            ))}
+          </div>
+
+          {/* Infinite Scroll Sentinel */}
+          {hasMore && (
+            <div ref={sentinelRef} className="flex justify-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent mx-auto mb-3"></div>
+                <p className="text-sm text-muted-foreground">Завантаження...</p>
+              </div>
+            </div>
+          )}
+
+          {/* End of List Indicator */}
+          {!hasMore && visibleEvents.length > 0 && (
+            <div className="text-center py-8">
+              <p className="text-sm text-muted-foreground">
+                Показано всі події {selectedRegion ? 'з обраної області' : ''}
+              </p>
+            </div>
+          )}
+        </>
       )}
 
       {/* Event Details Dialog */}

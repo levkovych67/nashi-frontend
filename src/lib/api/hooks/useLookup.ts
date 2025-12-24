@@ -19,6 +19,7 @@ export function useCities(region: Region, query: string) {
     queryKey: ['lookup', 'cities', region, query],
     queryFn: () =>
       apiClient.get<CityLookupResponse[]>('/api/v1/lookup/cities', { region, query }),
-    enabled: !!region && query.length >= 2,
+    enabled: !!region && query.length >= 4, // Minimum 4 characters to reduce API calls
+    staleTime: 5 * 60 * 1000, // Cache results for 5 minutes
   });
 }
