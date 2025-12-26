@@ -6,12 +6,14 @@ import { useThemeStore } from '@/stores/useThemeStore';
 import type { components } from '@/lib/api/generated/types';
 import { groupPinsByLocation } from '@/lib/utils/groupPinsByLocation';
 import { StackMarker } from './StackMarker';
+import { getRegionBounds } from '../utils/ukraineRegions';
 
 type MapPinDTO = components['schemas']['MapPinDTO'];
 
 interface MapContainerProps {
   pins: MapPinDTO[];
   onPinClick?: (pin: MapPinDTO) => void;
+  selectedRegion?: string | null;
 }
 
 // Ukraine center coordinates
@@ -30,12 +32,43 @@ const UKRAINE_BOUNDS = {
   maxLat: 52.3791,
 };
 
-export function MapContainer({ pins, onPinClick }: MapContainerProps) {
+export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerProps) {
   const mapRef = useRef<any>(null);
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const { theme } = useThemeStore();
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredGroupKey, setHoveredGroupKey] = useState<string | null>(null);
+  const [isMapReady, setIsMapReady] = useState(false);
+
+  // Handle map load callback
+  const handleMapLoad = () => {
+    setIsMapReady(true);
+  };
+
+  // Zoom to region when selected (only when map is ready)
+  useEffect(() => {
+    if (!isMapReady) return;
+    
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    const regionBounds = getRegionBounds(selectedRegion || null);
+    
+    if (regionBounds) {
+      // Zoom to specific region
+      map.fitBounds(regionBounds.bounds, {
+        padding: 50,
+        duration: 1000,
+      });
+    } else {
+      // Reset to Ukraine view
+      map.flyTo({
+        center: [INITIAL_VIEW_STATE.longitude, INITIAL_VIEW_STATE.latitude],
+        zoom: INITIAL_VIEW_STATE.zoom,
+        duration: 1000,
+      });
+    }
+  }, [selectedRegion, isMapReady]);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -44,6 +77,47 @@ export function MapContainer({ pins, onPinClick }: MapContainerProps) {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Change map language to Ukrainian
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    if (!map) return;
+
+    const handleLoad = () => {
+      // Check if map has setLanguage method (MapTiler SDK feature)
+      if (typeof (map as any).setLanguage === 'function') {
+        try {
+          (map as any).setLanguage('name:uk');
+        } catch (error) {
+          console.warn('setLanguage failed:', error);
+        }
+      } else {
+        // Fallback: manually update text-field properties
+        const style = map.getStyle();
+        if (!style || !style.layers) return;
+
+        style.layers.forEach((layer: any) => {
+          if (layer.type === 'symbol' && layer.layout && layer.layout['text-field']) {
+            try {
+              map.setLayoutProperty(layer.id, 'text-field', ['get', 'name:uk']);
+            } catch (error) {
+              // Silently continue if property doesn't exist
+            }
+          }
+        });
+      }
+    };
+
+    if (map.loaded()) {
+      handleLoad();
+    } else {
+      map.on('load', handleLoad);
+    }
+
+    return () => {
+      map.off('load', handleLoad);
+    };
+  }, [theme]); // Re-run when theme changes
 
   // Group pins by location to handle overlapping markers
   const pinGroups = groupPinsByLocation(pins);
@@ -58,6 +132,7 @@ export function MapContainer({ pins, onPinClick }: MapContainerProps) {
       <Map
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
+        onLoad={handleMapLoad}
         mapStyle={mapStyle}
         style={{ width: '100%', height: '100%' }}
         ref={mapRef}

@@ -155,8 +155,9 @@ export function SubmitArtistPage() {
             onCitySelect={(city) => {
               setSelectedCity(city.name || '');
               setValue('city', city.name || '');
-              setValue('latitude', city.latitude || 0);
-              setValue('longitude', city.longitude || 0);
+              // Use the new coordinate fields for precise location within the city
+              setValue('latitude', city.latitudeSomewhereInTheCity || city.latitude || 0);
+              setValue('longitude', city.longitudeSomewhereInTheCity || city.longitude || 0);
             }}
             error={errors.city ? 'Обов\'язкове поле' : undefined}
           />

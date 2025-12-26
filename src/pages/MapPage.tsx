@@ -52,7 +52,11 @@ export function MapPage() {
 
       {/* Map */}
       {!isLoading && !error && (
-        <MapContainer pins={pins || []} onPinClick={handlePinClick} />
+        <MapContainer 
+          pins={pins || []} 
+          onPinClick={handlePinClick}
+          selectedRegion={selectedRegion}
+        />
       )}
 
       {/* Pin Preview Drawer */}
