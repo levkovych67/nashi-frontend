@@ -8,10 +8,22 @@ interface StackMarkerProps {
   pins: MapPinDTO[];
   onPinClick: (pin: MapPinDTO) => void;
   isMobile: boolean;
+  onHoverChange?: (isHovered: boolean) => void;
 }
 
-export function StackMarker({ pins, onPinClick, isMobile }: StackMarkerProps) {
+export function StackMarker({ pins, onPinClick, isMobile, onHoverChange }: StackMarkerProps) {
   const [isListOpen, setIsListOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    onHoverChange?.(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    onHoverChange?.(false);
+  };
 
   // Get the first pin for display (or could be a priority logic)
   const displayPin = pins[0];
@@ -30,7 +42,11 @@ export function StackMarker({ pins, onPinClick, isMobile }: StackMarkerProps) {
   };
 
   return (
-    <div className="relative">
+    <div 
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* Main Marker */}
       <div
         className={`

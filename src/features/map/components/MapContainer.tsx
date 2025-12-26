@@ -35,6 +35,7 @@ export function MapContainer({ pins, onPinClick }: MapContainerProps) {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const { theme } = useThemeStore();
   const [isMobile, setIsMobile] = useState(false);
+  const [hoveredGroupKey, setHoveredGroupKey] = useState<string | null>(null);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -69,20 +70,31 @@ export function MapContainer({ pins, onPinClick }: MapContainerProps) {
       >
         <NavigationControl position="top-right" />
 
-        {pinGroups.map((group) => (
-          <Marker
-            key={`group-${group.latitude}-${group.longitude}`}
-            latitude={group.latitude}
-            longitude={group.longitude}
-            anchor="bottom"
-          >
-            <StackMarker
-              pins={group.pins}
-              onPinClick={(pin) => onPinClick?.(pin)}
-              isMobile={isMobile}
-            />
-          </Marker>
-        ))}
+        {pinGroups.map((group) => {
+          const groupKey = `group-${group.latitude}-${group.longitude}`;
+          const isHovered = hoveredGroupKey === groupKey;
+          
+          return (
+            <Marker
+              key={groupKey}
+              latitude={group.latitude}
+              longitude={group.longitude}
+              anchor="bottom"
+              style={{
+                zIndex: isHovered ? 1000 : 1,
+              }}
+            >
+              <StackMarker
+                pins={group.pins}
+                onPinClick={(pin) => onPinClick?.(pin)}
+                isMobile={isMobile}
+                onHoverChange={(hovered) => 
+                  setHoveredGroupKey(hovered ? groupKey : null)
+                }
+              />
+            </Marker>
+          );
+        })}
       </Map>
     </div>
   );

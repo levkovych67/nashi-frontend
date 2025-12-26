@@ -2,7 +2,6 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { apiClient } from '../client';
 import type { components } from '../generated/types';
 
-type ArtistDTOMinified = components['schemas']['ArtistDTOMinified'];
 type ArtistViewDTO = components['schemas']['ArtistViewDTO'];
 type PageArtistDTOMinified = components['schemas']['PageArtistDTOMinified'];
 type Region = components['schemas']['EventCreateRequestDTO']['region'];
@@ -18,8 +17,9 @@ export function useArtists(params?: ArtistsListParams) {
     queryKey: ['artists', 'list', params],
     queryFn: () =>
       apiClient.get<PageArtistDTOMinified>('/api/v1/artists', {
-        'pageable.page': params?.page || 0,
-        'pageable.size': params?.size || 20,
+        page: params?.page || 0,
+        size: params?.size || 20,
+        sort: 'createdAt,DESC', // Sort by newest first
         region: params?.region,
       }),
   });
@@ -35,8 +35,9 @@ export function useInfiniteArtists(params?: InfiniteArtistsParams) {
     queryKey: ['artists', 'infinite', params],
     queryFn: ({ pageParam = 0 }) =>
       apiClient.get<PageArtistDTOMinified>('/api/v1/artists', {
-        'pageable.page': pageParam,
-        'pageable.size': params?.size || 20,
+        page: pageParam,
+        size: params?.size || 20,
+        sort: 'createdAt,DESC', // Sort by newest first
         region: params?.region,
       }),
     getNextPageParam: (lastPage) => {
