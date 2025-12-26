@@ -122,10 +122,21 @@ export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerP
   // Group pins by location to handle overlapping markers
   const pinGroups = groupPinsByLocation(pins);
 
-  // Map style based on theme
+  // Map style based on theme with Ukrainian language
   const mapStyle = theme === 'dark'
-    ? `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${config.mapTilerApiKey}`
-    : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}`;
+    // DataViz dark style with Ukrainian language
+    ? `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
+    // DataViz light style with Ukrainian language
+    : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}&language=uk`;
+    
+  // Alternative styles (commented out for reference):
+  // Basic styles (clean, minimalist):
+  // ? `https://api.maptiler.com/maps/basic-v2-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
+  // : `https://api.maptiler.com/maps/basic-v2/style.json?key=${config.mapTilerApiKey}&language=uk`;
+  //
+  // Streets styles (detailed street-level view):
+  // ? `https://api.maptiler.com/maps/streets-v2-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
+  // : `https://api.maptiler.com/maps/streets-v2/style.json?key=${config.mapTilerApiKey}&language=uk`;
 
   return (
     <div className="w-full h-full">

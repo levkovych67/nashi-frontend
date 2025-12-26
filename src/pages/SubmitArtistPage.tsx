@@ -333,11 +333,10 @@ export function SubmitArtistPage() {
 
       {/* Biography */}
       <Card className="p-6">
-        <h2 className="text-2xl font-heading font-semibold mb-4">Біографія</h2>
+        <h2 className="text-2xl font-heading font-semibold mb-4">Біографія *</h2>
         
         <div className="space-y-4">
           <div>
-            <Label htmlFor="biography">Біографія *</Label>
             <Textarea
               id="biography"
               {...register('biography', { required: true, maxLength: 5000 })}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Moon, Sun } from 'lucide-react';
 import { useThemeStore } from '@/stores/useThemeStore';
 import { Button } from '@/components/ui/button';
+import { SearchBar } from './SearchBar';
 
 export function Header() {
   const { theme, toggleTheme } = useThemeStore();
@@ -13,7 +14,7 @@ export function Header() {
           Наші
         </Link>
         
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 md:gap-6">
           <nav className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-sm font-medium hover:text-accent transition-colors">
               Карта
@@ -37,6 +38,11 @@ export function Header() {
               Додати
             </Link>
           </nav>
+          
+          {/* Search Bar */}
+          <div className="w-64 max-w-full">
+            <SearchBar />
+          </div>
           
           {/* Theme Toggle */}
           <Button
