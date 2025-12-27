@@ -1,0 +1,22 @@
+# Robots.txt for НАШІ - Ukrainian Cultural Platform
+# Allow all crawlers to index the site
+
+User-agent: *
+Allow: /
+
+# Sitemap location (update with actual domain when deployed)
+# Sitemap: https://yourdomain.com/sitemap.xml
+
+# Disallow crawling of API endpoints if any
+Disallow: /api/
+
+# Allow crawling of all pages
+Allow: /artists
+Allow: /events
+Allow: /news
+Allow: /radio
+Allow: /about
+Allow: /submit
+
+# Crawl delay (optional, for polite crawling)
+Crawl-delay: 1

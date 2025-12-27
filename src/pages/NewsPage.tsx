@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NewsCard } from '@/features/news/components/NewsCard';
 import { useLatestNews } from '@/lib/api/hooks/useNews';
 import { usePlatformStats } from '@/lib/api/hooks/useMetadata';
+import { SEO } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Users, CheckCircle, Clock } from 'lucide-react';
@@ -14,8 +15,22 @@ export function NewsPage() {
   const news = data?.content || [];
   const hasMore = data && !data.last;
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Новини української культури',
+    description: 'Останні новини та оновлення української культурної платформи НАШІ',
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEO
+        title="Новини української культури"
+        description="Останні новини української культури, оновлення платформи НАШІ, статистика та досягнення українських митців."
+        keywords="новини культури, українська культура, новини мистецтва, культурні новини України"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto px-4 py-8">
       {/* Header with Stats */}
       <div className="mb-8">
         <h1 className="text-4xl font-heading font-bold mb-6">Новини</h1>
@@ -101,5 +116,6 @@ export function NewsPage() {
         </>
       )}
     </div>
+    </>
   );
 }

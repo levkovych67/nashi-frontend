@@ -1,10 +1,27 @@
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { SEO } from '@/components/SEO';
 
 export function AboutPage() {
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'НАШІ',
+    description: 'Платформа української культурної спадщини',
+    url: window.location.origin,
+    sameAs: ['https://t.me/nashiart'],
+  };
+
   return (
-    <div className="container mx-auto px-4 py-12">
+    <>
+      <SEO
+        title="Про нас"
+        description="НАШІ - це культурна платформа для підтримки та розвитку української музичної сцени. Об'єднуємо артистів, організаторів подій та меломанів."
+        keywords="про нас, українська культура, культурна платформа, підтримка артистів, українська музична сцена"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto px-4 py-12">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -134,6 +151,6 @@ export function AboutPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </div></>
   );
 }

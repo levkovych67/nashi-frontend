@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useArtistBySlug } from '@/lib/api/hooks/useArtists';
 import { Button } from '@/components/ui/button';
+import { SEO } from '@/components/SEO';
 import { MapPin, Calendar, ExternalLink, Music, Users } from 'lucide-react';
 import { useState } from 'react';
 
@@ -34,8 +35,35 @@ export function ArtistProfilePage() {
   const images = artist.imageUrls || [];
   const currentImage = images[selectedImage];
 
+  // Structured data for artist
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'MusicGroup',
+    name: artist.name,
+    description: artist.biography || artist.pressRelease,
+    genre: artist.style,
+    foundingDate: artist.foundationYear?.toString(),
+    image: images[0],
+    location: artist.city
+      ? {
+          '@type': 'Place',
+          name: artist.city,
+        }
+      : undefined,
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
+      <SEO
+        title={artist.name || 'Артист'}
+        description={
+          artist.biography || artist.pressRelease || `Профіль артиста ${artist.name} на платформі НАШІ`
+        }
+        keywords={`${artist.name}, український артист, ${artist.style || 'українська музика'}, ${artist.musicTags?.join(', ') || ''}`}
+        ogImage={images[0]}
+        structuredData={structuredData}
+      />
+      <div className="min-h-screen">
       {/* Hero Image */}
       {currentImage && (
         <div className="relative w-full h-[50vh] md:h-[60vh] bg-accent/10">
@@ -179,5 +207,6 @@ export function ArtistProfilePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

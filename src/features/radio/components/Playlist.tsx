@@ -1,10 +1,6 @@
-import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Play } from 'lucide-react';
 import { useRadioStore } from '@/stores/useRadioStore';
-import type { components } from '@/lib/api/generated/types';
-
-type TrackDTO = components['schemas']['TrackDTO'];
 
 export function Playlist() {
   const { playlist, currentTrackIndex, setCurrentTrackIndex } = useRadioStore();

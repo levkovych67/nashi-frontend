@@ -13,15 +13,12 @@ interface StackMarkerProps {
 
 export function StackMarker({ pins, onPinClick, isMobile, onHoverChange }: StackMarkerProps) {
   const [isListOpen, setIsListOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
     onHoverChange?.(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     onHoverChange?.(false);
   };
 

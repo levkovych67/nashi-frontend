@@ -15,10 +15,10 @@ export class ApiClient {
       console.log(`[API] ${options?.method || 'GET'} ${endpoint}`);
     }
 
-    const headers: HeadersInit = { ...options?.headers };
+    const headers: Record<string, string> = { ...(options?.headers as Record<string, string>) };
     const method = options?.method || 'GET';
     const hasBody = options?.body && method !== 'GET' && method !== 'HEAD';
-    
+
     // 🔧 CRITICAL FIX: Don't force JSON if the body is FormData
     const isFormData = options?.body instanceof FormData;
 

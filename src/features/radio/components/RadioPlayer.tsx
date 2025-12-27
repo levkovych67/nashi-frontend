@@ -11,7 +11,6 @@ export function RadioPlayer() {
     currentTrackIndex,
     isPlaying,
     volume,
-    setCurrentTrackIndex,
     playNext,
     playPrevious,
     togglePlayPause,

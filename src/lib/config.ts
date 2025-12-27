@@ -1,5 +1,6 @@
 export const config = {
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
+  cdnUrl: import.meta.env.VITE_CDN_URL || 'http://localhost:8080',
   mapTilerApiKey: import.meta.env.VITE_MAPTILER_API_KEY || '',
 } as const;
 

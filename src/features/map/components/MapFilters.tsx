@@ -2,9 +2,6 @@ import { Button } from '@/components/ui/button';
 import { useMapStore } from '@/stores/useMapStore';
 import { useRegions } from '@/lib/api/hooks/useLookup';
 import { X } from 'lucide-react';
-import type { components } from '@/lib/api/generated/types';
-
-type Region = components['schemas']['EventCreateRequestDTO']['region'];
 
 export function MapFilters() {
   const { data: regions } = useRegions();
@@ -64,7 +61,7 @@ export function MapFilters() {
         <label className="text-sm font-medium mb-2 block">Область</label>
         <select
           value={selectedRegion || ''}
-          onChange={(e) => setRegion(e.target.value || null)}
+          onChange={(e) => setRegion(e.target.value || undefined)}
           className="w-full px-3 py-2 bg-background border border-accent/20 rounded-soft text-sm"
         >
           <option value="">Усі області</option>

@@ -14,7 +14,7 @@ import { detectSocialPlatform } from '@/lib/utils/detectSocialPlatform';
 import type { components } from '@/lib/api/generated/types';
 
 type ArtistCreateRequestDTO = components['schemas']['ArtistCreateRequestDTO'];
-type Region = components['schemas']['EventCreateRequestDTO']['region'];
+type SocialLinkDTO = components['schemas']['SocialLinkDTO'];
 
 export function SubmitArtistPage() {
   const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ArtistCreateRequestDTO>();
@@ -25,7 +25,7 @@ export function SubmitArtistPage() {
   const [images, setImages] = useState<File[]>([]);
   const [demoTracks, setDemoTracks] = useState<File[]>([]);
   const [members, setMembers] = useState<Array<{ firstName: string; lastName?: string; role: string; city?: string }>>([]);
-  const [socialLinks, setSocialLinks] = useState<Array<{ platform: string; url: string }>>([]);
+  const [socialLinks, setSocialLinks] = useState<SocialLinkDTO[]>([]);
   const [selectedCity, setSelectedCity] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
   
@@ -155,9 +155,9 @@ export function SubmitArtistPage() {
             onCitySelect={(city) => {
               setSelectedCity(city.name || '');
               setValue('city', city.name || '');
-              // Use the new coordinate fields for precise location within the city
-              setValue('latitude', city.latitudeSomewhereInTheCity || city.latitude || 0);
-              setValue('longitude', city.longitudeSomewhereInTheCity || city.longitude || 0);
+              // Use the coordinate fields for location
+              setValue('latitude', city.latitude || 0);
+              setValue('longitude', city.longitude || 0);
             }}
             error={errors.city ? 'Обов\'язкове поле' : undefined}
           />
@@ -289,13 +289,13 @@ export function SubmitArtistPage() {
                     const newLinks = [...socialLinks];
                     const url = e.target.value;
                     newLinks[index].url = url;
-                    
+
                     // Auto-detect platform when URL changes
                     if (url) {
-                      const detectedPlatform = detectSocialPlatform(url);
+                      const detectedPlatform = detectSocialPlatform(url) as SocialLinkDTO['platform'];
                       newLinks[index].platform = detectedPlatform;
                     }
-                    
+
                     setSocialLinks(newLinks);
                   }}
                   placeholder="https://instagram.com/username"
@@ -323,7 +323,7 @@ export function SubmitArtistPage() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setSocialLinks([...socialLinks, { platform: '', url: '' }])}
+            onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as const, url: '' }])}
             className="w-full"
           >
             + Додати соціальну мережу

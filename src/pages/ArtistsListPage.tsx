@@ -3,6 +3,7 @@ import { ArtistCard } from '@/features/artists/components/ArtistCard';
 import { useInfiniteArtists } from '@/lib/api/hooks/useArtists';
 import { useRegions } from '@/lib/api/hooks/useLookup';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { SEO } from '@/components/SEO';
 import type { components } from '@/lib/api/generated/types';
 
 type Region = components['schemas']['EventCreateRequestDTO']['region'];
@@ -34,8 +35,23 @@ export function ArtistsListPage() {
     rootMargin: '200px', // Start loading 200px before reaching the bottom
   });
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Українські митці',
+    description: 'Каталог українських митців та артистів',
+    numberOfItems: artists.length,
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEO
+        title="Українські митці та артисти"
+        description="Повний каталог українських митців: музиканти, художники, письменники та інші творчі особистості. Підтримайте українську культуру."
+        keywords="українські митці, українські артисти, музиканти України, художники України, українська культура"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <h1 className="text-4xl font-heading font-bold">Артисти</h1>
 
@@ -48,7 +64,7 @@ export function ArtistsListPage() {
             id="region-filter"
             value={selectedRegion || ''}
             onChange={(e) => {
-              setSelectedRegion(e.target.value || undefined);
+              setSelectedRegion((e.target.value || undefined) as Region | undefined);
             }}
             className="px-3 py-2 bg-background border border-accent/20 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent transition-all"
           >
@@ -122,5 +138,6 @@ export function ArtistsListPage() {
         </>
       )}
     </div>
+    </>
   );
 }

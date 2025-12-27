@@ -4,6 +4,7 @@ import { MapFilters } from '@/features/map/components/MapFilters';
 import { PinPreviewDrawer } from '@/features/map/components/PinPreviewDrawer';
 import { useMapPins } from '@/lib/api/hooks/useMapPins';
 import { useMapStore } from '@/stores/useMapStore';
+import { SEO } from '@/components/SEO';
 import type { components } from '@/lib/api/generated/types';
 
 type MapPinDTO = components['schemas']['MapPinDTO'];
@@ -23,8 +24,29 @@ export function MapPage() {
     setIsDrawerOpen(true);
   };
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'НАШІ - Карта культурних подій України',
+    description: 'Інтерактивна карта українських митців та культурних подій',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'UAH',
+    },
+  };
+
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)]">
+    <>
+      <SEO
+        title="Карта культурних подій"
+        description="Інтерактивна карта українських митців, подій та культурних локацій. Відкрийте для себе культурну спадщину України."
+        keywords="карта України, культурні події, українські митці, карта подій, культурна спадщина"
+        structuredData={structuredData}
+      />
+      <div className="relative w-full h-[calc(100vh-4rem)]">
       {/* Filters - positioned absolutely on bottom-left of map */}
       <div className="absolute bottom-4 left-4 z-10 w-72 max-w-[calc(100vw-2rem)]">
         <MapFilters />
@@ -66,5 +88,6 @@ export function MapPage() {
         onClose={() => setIsDrawerOpen(false)}
       />
     </div>
+    </>
   );
 }

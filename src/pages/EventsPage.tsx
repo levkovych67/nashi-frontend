@@ -3,6 +3,7 @@ import { EventCard } from '@/features/events/components/EventCard';
 import { useEvents } from '@/lib/api/hooks/useEvents';
 import { useRegions } from '@/lib/api/hooks/useLookup';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import { SEO } from '@/components/SEO';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, ExternalLink } from 'lucide-react';
@@ -46,8 +47,22 @@ export function EventsPage() {
 
   const eventDate = selectedEvent?.dateTime ? new Date(selectedEvent.dateTime) : null;
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'EventSeries',
+    name: 'Культурні події України',
+    description: 'Календар культурних подій по всій Україні',
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEO
+        title="Культурні події України"
+        description="Календар культурних подій по всій Україні: концерти, виставки, фестивалі та інші заходи. Знайдіть цікаві події у вашому місті."
+        keywords="культурні події, події в Україні, концерти, виставки, фестивалі, культурний календар"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <h1 className="text-4xl font-heading font-bold">Події</h1>
 
@@ -60,7 +75,7 @@ export function EventsPage() {
             id="region-filter"
             value={selectedRegion || ''}
             onChange={(e) => {
-              setSelectedRegion(e.target.value || undefined);
+              setSelectedRegion((e.target.value || undefined) as Region | undefined);
               setDisplayCount(EVENTS_PER_PAGE);
             }}
             className="px-3 py-2 bg-background border border-accent/20 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent transition-all"
@@ -210,5 +225,6 @@ export function EventsPage() {
         </DialogContent>
       </Dialog>
     </div>
+    </>
   );
 }

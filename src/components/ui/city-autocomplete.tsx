@@ -34,7 +34,7 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
   }, [value]);
 
   const handleSelect = (city: CityLookupResponse) => {
-    setInputValue(city.name);
+    setInputValue(city.name ?? '');
     setIsOpen(false);
     onCitySelect(city);
   };

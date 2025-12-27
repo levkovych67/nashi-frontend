@@ -4,6 +4,7 @@ import { Playlist } from '@/features/radio/components/Playlist';
 import { useRadioMix } from '@/lib/api/hooks/useRadio';
 import { useRegions } from '@/lib/api/hooks/useLookup';
 import { useRadioStore } from '@/stores/useRadioStore';
+import { SEO } from '@/components/SEO';
 import type { components } from '@/lib/api/generated/types';
 
 type Region = components['schemas']['EventCreateRequestDTO']['region'];
@@ -23,8 +24,23 @@ export function RadioPage() {
     }
   }, [tracks]);
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'RadioStation',
+    name: 'Наше Радіо',
+    description: 'Українське незалежне радіо з музикою від українських артистів',
+    genre: 'Ukrainian Music',
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <SEO
+        title="Наше Радіо - Українська музика"
+        description="Слухайте кращу українську музику від незалежних артистів. Онлайн радіо з українськими треками."
+        keywords="українське радіо, українська музика, онлайн радіо, незалежні артисти, українські пісні"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -42,7 +58,7 @@ export function RadioPage() {
           <select
             id="region-select"
             value={selectedRegion || ''}
-            onChange={(e) => setSelectedRegion(e.target.value || undefined)}
+            onChange={(e) => setSelectedRegion((e.target.value || undefined) as Region | undefined)}
             className="w-full px-4 py-3 bg-background border border-accent/20 rounded-card text-sm focus:outline-none focus:ring-2 focus:ring-accent"
           >
             <option value="">Уся Україна</option>
@@ -92,5 +108,6 @@ export function RadioPage() {
         )}
       </div>
     </div>
+    </>
   );
 }
