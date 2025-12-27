@@ -20,6 +20,8 @@ const EventsPage = lazy(() => import('@/pages/EventsPage').then(m => ({ default:
 const NewsPage = lazy(() => import('@/pages/NewsPage').then(m => ({ default: m.NewsPage })));
 const RadioPage = lazy(() => import('@/pages/RadioPage').then(m => ({ default: m.RadioPage })));
 const SubmitPage = lazy(() => import('@/pages/SubmitPage').then(m => ({ default: m.SubmitPage })));
+const SubmitArtistPage = lazy(() => import('@/pages/SubmitArtistPage').then(m => ({ default: m.SubmitArtistPage })));
+const SubmitEventPage = lazy(() => import('@/pages/SubmitEventPage').then(m => ({ default: m.SubmitEventPage })));
 const AboutPage = lazy(() => import('@/pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
 
@@ -81,6 +83,22 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <SubmitPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'submit/artist',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <SubmitArtistPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'submit/event',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <SubmitEventPage />
           </Suspense>
         ),
       },

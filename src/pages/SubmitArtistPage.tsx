@@ -14,7 +14,7 @@ import { detectSocialPlatform } from '@/lib/utils/detectSocialPlatform';
 import type { components } from '@/lib/api/generated/types';
 
 type ArtistCreateRequestDTO = components['schemas']['ArtistCreateRequestDTO'];
-type SocialLinkDTO = components['schemas']['SocialLinkDTO'];
+type SocialLinkPlatform = 'INSTAGRAM' | 'FACEBOOK' | 'SPOTIFY' | 'APPLE_MUSIC' | 'YOUTUBE' | 'SOUNDCLOUD' | 'TIKTOK' | 'TELEGRAM' | 'WEBSITE' | 'OTHER';
 
 export function SubmitArtistPage() {
   const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ArtistCreateRequestDTO>();
@@ -25,7 +25,7 @@ export function SubmitArtistPage() {
   const [images, setImages] = useState<File[]>([]);
   const [demoTracks, setDemoTracks] = useState<File[]>([]);
   const [members, setMembers] = useState<Array<{ firstName: string; lastName?: string; role: string; city?: string }>>([]);
-  const [socialLinks, setSocialLinks] = useState<SocialLinkDTO[]>([]);
+  const [socialLinks, setSocialLinks] = useState<Array<{ platform: SocialLinkPlatform; url: string }>>([]);
   const [selectedCity, setSelectedCity] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
   
@@ -82,9 +82,15 @@ export function SubmitArtistPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Basic Info */}
-      <Card className="p-6">
+    <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">Запропонувати артиста</h1>
+        <p className="text-muted-foreground">Додайте українського виконавця до нашої платформи</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+        {/* Basic Info */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Основна інформація</h2>
         
         <div className="space-y-4">
@@ -155,7 +161,6 @@ export function SubmitArtistPage() {
             onCitySelect={(city) => {
               setSelectedCity(city.name || '');
               setValue('city', city.name || '');
-              // Use the coordinate fields for location
               setValue('latitude', city.latitude || 0);
               setValue('longitude', city.longitude || 0);
             }}
@@ -173,10 +178,10 @@ export function SubmitArtistPage() {
             {errors.contactEmail && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
           </div>
         </div>
-      </Card>
+        </Card>
 
-      {/* Members */}
-      <Card className="p-6">
+        {/* Members */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Учасники (опціонально)</h2>
         
         <div className="space-y-4">
@@ -259,10 +264,10 @@ export function SubmitArtistPage() {
             + Додати учасника
           </Button>
         </div>
-      </Card>
+        </Card>
 
-      {/* Social Links */}
-      <Card className="p-6">
+        {/* Social Links */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Соціальні мережі (опціонально)</h2>
         
         <div className="space-y-4">
@@ -289,13 +294,13 @@ export function SubmitArtistPage() {
                     const newLinks = [...socialLinks];
                     const url = e.target.value;
                     newLinks[index].url = url;
-
+                    
                     // Auto-detect platform when URL changes
                     if (url) {
-                      const detectedPlatform = detectSocialPlatform(url) as SocialLinkDTO['platform'];
+                      const detectedPlatform = detectSocialPlatform(url);
                       newLinks[index].platform = detectedPlatform;
                     }
-
+                    
                     setSocialLinks(newLinks);
                   }}
                   placeholder="https://instagram.com/username"
@@ -323,16 +328,16 @@ export function SubmitArtistPage() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as const, url: '' }])}
+            onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as SocialLinkPlatform, url: '' }])}
             className="w-full"
           >
             + Додати соціальну мережу
           </Button>
         </div>
-      </Card>
+        </Card>
 
-      {/* Biography */}
-      <Card className="p-6">
+        {/* Biography */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Біографія *</h2>
         
         <div className="space-y-4">
@@ -346,10 +351,10 @@ export function SubmitArtistPage() {
             {errors.biography && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (макс 5000 символів)</p>}
           </div>
         </div>
-      </Card>
+        </Card>
 
-      {/* Media Files */}
-      <Card className="p-6">
+        {/* Media Files */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Медіа файли</h2>
         
         <div className="space-y-4">
@@ -425,9 +430,9 @@ export function SubmitArtistPage() {
             )}
           </div>
         </div>
-      </Card>
+        </Card>
 
-      {/* Error Message */}
+        {/* Error Message */}
       {submitError && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-card">
           <p className="text-sm text-red-600">{submitError}</p>
@@ -439,6 +444,7 @@ export function SubmitArtistPage() {
         {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
         {isPending ? 'Надсилання...' : 'Надіслати заявку'}
       </Button>
-    </form>
+      </form>
+    </div>
   );
 }
