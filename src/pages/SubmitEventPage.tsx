@@ -27,6 +27,18 @@ export function SubmitEventPage() {
       return;
     }
 
+    // Validate that the event date is in the future
+    const eventDate = new Date(data.dateTime);
+    const now = new Date();
+    if (eventDate <= now) {
+      toast({ 
+        title: 'Помилка', 
+        description: 'Дата і час події мають бути в майбутньому', 
+        variant: 'destructive' 
+      });
+      return;
+    }
+
     submitEvent(
       { data, image },
       {
@@ -53,9 +65,15 @@ export function SubmitEventPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Basic Info */}
-      <Card className="p-6">
+    <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">Запропонувати подію</h1>
+        <p className="text-muted-foreground">Додайте концерт або захід до нашої платформи</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+        {/* Basic Info */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Інформація про подію</h2>
         
         <div className="space-y-4">
@@ -94,9 +112,16 @@ export function SubmitEventPage() {
               <Input
                 id="dateTime"
                 type="datetime-local"
-                {...register('dateTime', { required: true })}
+                {...register('dateTime', { 
+                  required: 'Обов\'язкове поле',
+                  validate: (value) => {
+                    const eventDate = new Date(value);
+                    const now = new Date();
+                    return eventDate > now || 'Дата і час події мають бути в майбутньому';
+                  }
+                })}
               />
-              {errors.dateTime && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+              {errors.dateTime && <p className="text-sm text-red-500 mt-1">{errors.dateTime.message}</p>}
             </div>
 
             <div>
@@ -149,10 +174,10 @@ export function SubmitEventPage() {
             />
           </div>
         </div>
-      </Card>
+        </Card>
 
-      {/* Image */}
-      <Card className="p-6">
+        {/* Image */}
+        <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Фото події</h2>
         
         <div>
@@ -193,6 +218,7 @@ export function SubmitEventPage() {
         {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
         {isPending ? 'Надсилання...' : 'Надіслати подію'}
       </Button>
-    </form>
+      </form>
+    </div>
   );
 }

@@ -24,9 +24,9 @@ export function MapPage() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)]">
-      {/* Filters - positioned absolutely on bottom-left of map */}
-      <div className="absolute bottom-4 left-4 z-10 w-72 max-w-[calc(100vw-2rem)]">
+    <div className="relative w-full h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)]" style={{ height: 'calc(100dvh - 4rem)' }}>
+      {/* Filters - positioned absolutely, mobile-optimized */}
+      <div className="absolute bottom-20 left-2 md:bottom-4 md:left-4 z-10 w-[calc(100vw-1rem)] max-w-xs md:max-w-sm">
         <MapFilters />
       </div>
 

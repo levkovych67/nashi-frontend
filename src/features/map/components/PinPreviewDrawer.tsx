@@ -1,4 +1,4 @@
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import type { components } from '@/lib/api/generated/types';
@@ -25,12 +25,23 @@ export function PinPreviewDrawer({ pin, isOpen, onClose }: PinPreviewDrawerProps
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="bottom" className="h-[80vh] md:h-auto">
+      <SheetContent 
+        side="bottom" 
+        className="h-[85vh] max-h-[85vh] md:h-auto md:max-h-[90vh] overflow-y-auto rounded-t-3xl md:rounded-t-xl"
+      >
+        {/* Mobile drag handle indicator */}
+        <div className="flex justify-center mb-2 md:hidden">
+          <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
+        </div>
+        
         <SheetHeader>
-          <SheetTitle className="font-heading text-2xl">{pin.name}</SheetTitle>
+          <SheetTitle className="font-heading text-2xl md:text-3xl">{pin.name}</SheetTitle>
+          <SheetDescription className="sr-only">
+            {pin.type === 'ARTIST' ? 'Інформація про артиста' : 'Інформація про подію'}
+          </SheetDescription>
         </SheetHeader>
 
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 space-y-4 pb-safe">
           {/* Avatar/Image */}
           {pin.avatarUrl && (
             <div className="w-full h-48 rounded-card overflow-hidden">

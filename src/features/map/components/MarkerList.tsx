@@ -6,6 +6,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from '@/components/ui/sheet';
 
 type MapPinDTO = components['schemas']['MapPinDTO'];
@@ -106,6 +107,9 @@ export function MarkerList({
             {pins.length} {pins.length === 1 ? 'Location' : 'Locations'} at this
             spot
           </SheetTitle>
+          <SheetDescription className="sr-only">
+            Список локацій на карті
+          </SheetDescription>
         </SheetHeader>
         <div className="mt-4 space-y-1 overflow-y-auto max-h-[60vh]">
           {pins.map((pin, index) => (
