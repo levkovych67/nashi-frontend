@@ -81,29 +81,43 @@ export function SubmitEventPage() {
             <Label htmlFor="title">Назва події *</Label>
             <Input
               id="title"
-              {...register('title', { required: true, minLength: 2, maxLength: 200 })}
+              {...register('title', { 
+                required: 'Обов\'язкове поле',
+                minLength: { value: 2, message: 'Мінімум 2 символи' },
+                maxLength: { value: 200, message: 'Максимум 200 символів' }
+              })}
               placeholder="Назва події або концерту"
             />
-            {errors.title && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (2-200 символів)</p>}
+            {errors.title && <p className="text-sm text-red-500 mt-1">{errors.title.message}</p>}
           </div>
 
           <div>
-            <Label htmlFor="artistName">Ім'я артиста</Label>
+            <Label htmlFor="artistName">Ім'я артиста *</Label>
             <Input
               id="artistName"
-              {...register('artistName')}
+              {...register('artistName', { 
+                required: 'Обов\'язкове поле',
+                minLength: { value: 2, message: 'Мінімум 2 символи' },
+                maxLength: { value: 100, message: 'Максимум 100 символів' }
+              })}
               placeholder="Хто виступає?"
             />
+            {errors.artistName && <p className="text-sm text-red-500 mt-1">{errors.artistName.message}</p>}
           </div>
 
           <div>
-            <Label htmlFor="description">Опис</Label>
+            <Label htmlFor="description">Опис *</Label>
             <Textarea
               id="description"
-              {...register('description', { maxLength: 2000 })}
+              {...register('description', { 
+                required: 'Обов\'язкове поле',
+                minLength: { value: 10, message: 'Мінімум 10 символів' },
+                maxLength: { value: 2000, message: 'Максимум 2000 символів' }
+              })}
               placeholder="Опишіть подію..."
               rows={6}
             />
+            {errors.description && <p className="text-sm text-red-500 mt-1">{errors.description.message}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -128,7 +142,7 @@ export function SubmitEventPage() {
               <Label htmlFor="region">Область *</Label>
               <select
                 id="region"
-                {...register('region', { required: true })}
+                {...register('region', { required: 'Оберіть область' })}
                 className="w-full px-3 py-2.5 bg-background border border-accent/20 rounded-soft text-sm hover:border-accent/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent cursor-pointer transition-colors"
               >
                 <option value="">Виберіть область</option>
@@ -138,7 +152,7 @@ export function SubmitEventPage() {
                   </option>
                 ))}
               </select>
-              {errors.region && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+              {errors.region && <p className="text-sm text-red-500 mt-1">{errors.region.message}</p>}
             </div>
           </div>
 
@@ -147,31 +161,46 @@ export function SubmitEventPage() {
               <Label htmlFor="city">Місто *</Label>
               <Input
                 id="city"
-                {...register('city', { required: true })}
+                {...register('city', { 
+                  required: 'Обов\'язкове поле',
+                  minLength: { value: 2, message: 'Мінімум 2 символи' },
+                  maxLength: { value: 50, message: 'Максимум 50 символів' }
+                })}
                 placeholder="Київ, Львів, тощо"
               />
-              {errors.city && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+              {errors.city && <p className="text-sm text-red-500 mt-1">{errors.city.message}</p>}
             </div>
 
             <div>
               <Label htmlFor="venue">Місце проведення *</Label>
               <Input
                 id="venue"
-                {...register('venue', { required: true })}
+                {...register('venue', { 
+                  required: 'Обов\'язкове поле',
+                  minLength: { value: 2, message: 'Мінімум 2 символи' },
+                  maxLength: { value: 100, message: 'Максимум 100 символів' }
+                })}
                 placeholder="напр. Палац Спорту"
               />
-              {errors.venue && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+              {errors.venue && <p className="text-sm text-red-500 mt-1">{errors.venue.message}</p>}
             </div>
           </div>
 
           <div>
-            <Label htmlFor="ticketUrl">Посилання на квитки</Label>
+            <Label htmlFor="ticketUrl">Посилання на квитки *</Label>
             <Input
               id="ticketUrl"
               type="url"
-              {...register('ticketUrl')}
+              {...register('ticketUrl', { 
+                required: 'Обов\'язкове поле',
+                pattern: {
+                  value: /^https?:\/\/.+/,
+                  message: 'Введіть коректне посилання (має починатися з http:// або https://)'
+                }
+              })}
               placeholder="https://..."
             />
+            {errors.ticketUrl && <p className="text-sm text-red-500 mt-1">{errors.ticketUrl.message}</p>}
           </div>
         </div>
         </Card>
