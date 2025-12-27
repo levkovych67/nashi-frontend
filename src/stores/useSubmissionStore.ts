@@ -33,7 +33,7 @@ const initialState: SubmissionState = {
 };
 
 export const useSubmissionStore = create<SubmissionStore>((set, get) => {
-  let progressInterval: NodeJS.Timeout | null = null;
+  let progressInterval: number | null = null;
 
   return {
     ...initialState,

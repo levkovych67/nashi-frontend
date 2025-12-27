@@ -63,10 +63,8 @@ export function MapFilters() {
         <label className="text-sm font-medium mb-2 block">Область</label>
         <select
           value={selectedRegion || ''}
-
-          onChange={(e) => setRegion(e.target.value || undefined)}
+          onChange={(e) => setRegion(e.target.value ? (e.target.value as typeof selectedRegion) : undefined)}
           className="w-full min-h-[44px] px-3 py-2 bg-background border border-accent/20 rounded-soft text-sm touch-manipulation"
-
         >
           <option value="">Усі області</option>
           {regions?.map((region) => (

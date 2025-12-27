@@ -332,7 +332,6 @@ export function SubmitArtistPage() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as SocialLinkPlatform, url: '' }])}
             onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as const, url: '' }])}
             className="w-full"
           >
