@@ -15,6 +15,7 @@ import type { components } from '@/lib/api/generated/types';
 
 type ArtistCreateRequestDTO = components['schemas']['ArtistCreateRequestDTO'];
 type SocialLinkPlatform = 'INSTAGRAM' | 'FACEBOOK' | 'SPOTIFY' | 'APPLE_MUSIC' | 'YOUTUBE' | 'SOUNDCLOUD' | 'TIKTOK' | 'TELEGRAM' | 'WEBSITE' | 'OTHER';
+type SocialLinkDTO = components['schemas']['SocialLinkDTO'];
 
 export function SubmitArtistPage() {
   const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ArtistCreateRequestDTO>();
@@ -163,6 +164,9 @@ export function SubmitArtistPage() {
               setValue('city', city.name || '');
               setValue('latitude', city.latitude || 0);
               setValue('longitude', city.longitude || 0);
+              // Use the coordinate fields for location
+              setValue('latitude', city.latitude || 0);
+              setValue('longitude', city.longitude || 0);
             }}
             error={errors.city ? 'Обов\'язкове поле' : undefined}
           />
@@ -294,13 +298,13 @@ export function SubmitArtistPage() {
                     const newLinks = [...socialLinks];
                     const url = e.target.value;
                     newLinks[index].url = url;
-                    
+
                     // Auto-detect platform when URL changes
                     if (url) {
-                      const detectedPlatform = detectSocialPlatform(url);
+                      const detectedPlatform = detectSocialPlatform(url) as SocialLinkDTO['platform'];
                       newLinks[index].platform = detectedPlatform;
                     }
-                    
+
                     setSocialLinks(newLinks);
                   }}
                   placeholder="https://instagram.com/username"
@@ -329,6 +333,7 @@ export function SubmitArtistPage() {
             type="button"
             variant="outline"
             onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as SocialLinkPlatform, url: '' }])}
+            onClick={() => setSocialLinks([...socialLinks, { platform: 'OTHER' as const, url: '' }])}
             className="w-full"
           >
             + Додати соціальну мережу
