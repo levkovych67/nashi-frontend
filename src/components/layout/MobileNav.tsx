@@ -27,14 +27,14 @@ export function MobileNav() {
         <div className="flex items-center justify-around h-16 px-2 relative">
           <Link to="/" className={`flex flex-col items-center gap-1 min-w-[60px] ${isActive('/') ? 'text-accent' : 'text-foreground'}`}>
             <Map size={20} />
-            <span className="text-xs">Карта</span>
+            <span className="text-xs font-nav">Карта</span>
           </Link>
-          
+
           <Link to="/artists" className={`flex flex-col items-center gap-1 min-w-[60px] ${isActive('/artists') ? 'text-accent' : 'text-foreground'}`}>
             <Users size={20} />
-            <span className="text-xs">Артисти</span>
+            <span className="text-xs font-nav">Артисти</span>
           </Link>
-          
+
           {/* Floating Action Button */}
           <button
             onClick={() => setIsSubmitMenuOpen(true)}
@@ -43,15 +43,15 @@ export function MobileNav() {
           >
             <Plus size={28} strokeWidth={2.5} />
           </button>
-          
+
           <Link to="/events" className={`flex flex-col items-center gap-1 min-w-[60px] ${isActive('/events') ? 'text-accent' : 'text-foreground'}`}>
             <Calendar size={20} />
-            <span className="text-xs">Події</span>
+            <span className="text-xs font-nav">Події</span>
           </Link>
-          
+
           <Link to="/news" className={`flex flex-col items-center gap-1 min-w-[60px] ${isActive('/news') ? 'text-accent' : 'text-foreground'}`}>
             <Newspaper size={20} />
-            <span className="text-xs">Новини</span>
+            <span className="text-xs font-nav">Новини</span>
           </Link>
         </div>
       </nav>

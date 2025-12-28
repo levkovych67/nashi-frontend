@@ -66,7 +66,7 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
           onBlur={() => setTimeout(() => setIsOpen(false), 200)} // Delay to allow click on dropdown
           placeholder={region ? "Почніть вводити назву..." : "Спочатку виберіть область"}
           disabled={!region}
-          className={isDebouncing ? 'pr-10' : ''}
+          className={`${isDebouncing ? 'pr-10' : ''} ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
         />
         
         {/* Typing indicator (while debouncing) */}

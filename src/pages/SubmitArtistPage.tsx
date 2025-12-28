@@ -18,25 +18,36 @@ type SocialLinkPlatform = 'INSTAGRAM' | 'FACEBOOK' | 'SPOTIFY' | 'APPLE_MUSIC' |
 type SocialLinkDTO = components['schemas']['SocialLinkDTO'];
 
 export function SubmitArtistPage() {
-  const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ArtistCreateRequestDTO>();
+  const { register, handleSubmit, formState: { errors }, reset, setValue, watch, setFocus } = useForm<ArtistCreateRequestDTO>();
   const { data: regions } = useRegions();
   const { mutate: submitArtist, isPending } = useSubmitArtist();
   const { toast } = useToast();
-  
+
   const [images, setImages] = useState<File[]>([]);
   const [demoTracks, setDemoTracks] = useState<File[]>([]);
   const [members, setMembers] = useState<Array<{ firstName: string; lastName?: string; role: string; city?: string }>>([]);
   const [socialLinks, setSocialLinks] = useState<Array<{ platform: SocialLinkPlatform; url: string }>>([]);
   const [selectedCity, setSelectedCity] = useState('');
   const [submitError, setSubmitError] = useState<string | null>(null);
-  
+  const [imagesError, setImagesError] = useState(false);
+
   const selectedRegion = watch('region');
 
   const onSubmit = (data: ArtistCreateRequestDTO) => {
-    setSubmitError(null); // Clear previous errors
-    
+    setSubmitError(null);
+    setImagesError(false);
+
+    // Scroll to first error if exists
+    const firstErrorKey = Object.keys(errors)[0] as keyof ArtistCreateRequestDTO;
+    if (firstErrorKey) {
+      setFocus(firstErrorKey);
+      return;
+    }
+
     if (images.length === 0) {
+      setImagesError(true);
       toast({ title: 'Помилка', description: 'Додайте хоча б одне фото', variant: 'destructive' });
+      document.getElementById('images-upload')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
@@ -46,6 +57,7 @@ export function SubmitArtistPage() {
         onSuccess: () => {
           toast({ title: 'Успіх!', description: 'Вашу заявку надіслано на розгляд' });
           setSubmitError(null);
+          setImagesError(false);
           reset();
           setImages([]);
           setDemoTracks([]);
@@ -59,11 +71,11 @@ export function SubmitArtistPage() {
           } else {
             setSubmitError(error.message || 'Сталася помилка при надсиланні форми');
           }
-          
-          toast({ 
-            title: 'Помилка', 
+
+          toast({
+            title: 'Помилка',
             description: error.message,
-            variant: 'destructive' 
+            variant: 'destructive'
           });
         },
       }
@@ -73,6 +85,7 @@ export function SubmitArtistPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImages([...images, ...Array.from(e.target.files)]);
+      setImagesError(false);
     }
   };
 
@@ -101,6 +114,7 @@ export function SubmitArtistPage() {
               id="name"
               {...register('name', { required: true, minLength: 2, maxLength: 100 })}
               placeholder="Назва гурту або ім'я виконавця"
+              className={errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}
             />
             {errors.name && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (2-100 символів)</p>}
           </div>
@@ -111,6 +125,7 @@ export function SubmitArtistPage() {
               id="style"
               {...register('style', { required: true })}
               placeholder="напр. Folk, Rock, Electronic"
+              className={errors.style ? 'border-red-500 focus-visible:ring-red-500' : ''}
             />
             {errors.style && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
           </div>
@@ -123,6 +138,7 @@ export function SubmitArtistPage() {
                 type="number"
                 {...register('foundationYear', { min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
                 placeholder="напр. 2015"
+                className={errors.foundationYear ? 'border-red-500 focus-visible:ring-red-500' : ''}
               />
               {errors.foundationYear && <p className="text-sm text-red-500 mt-1">Рік має бути від 1900</p>}
             </div>
@@ -134,6 +150,7 @@ export function SubmitArtistPage() {
                 type="number"
                 {...register('disbandYear', { min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
                 placeholder="напр. 2020"
+                className={errors.disbandYear ? 'border-red-500 focus-visible:ring-red-500' : ''}
               />
               {errors.disbandYear && <p className="text-sm text-red-500 mt-1">Рік має бути від 1900</p>}
             </div>
@@ -144,7 +161,11 @@ export function SubmitArtistPage() {
             <select
               id="region"
               {...register('region', { required: true })}
-              className="w-full px-3 py-2.5 bg-background border border-accent/20 rounded-soft text-sm hover:border-accent/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent cursor-pointer transition-colors"
+              className={`w-full px-3 py-2.5 bg-background border rounded-soft text-sm hover:border-accent/40 focus:outline-none focus:ring-2 cursor-pointer transition-colors ${
+                errors.region
+                  ? 'border-red-500 focus:ring-red-500'
+                  : 'border-accent/20 focus:ring-accent focus:border-accent'
+              }`}
             >
               <option value="">Виберіть область</option>
               {regions?.map((region) => (
@@ -178,6 +199,7 @@ export function SubmitArtistPage() {
               type="email"
               {...register('contactEmail', { required: true })}
               placeholder="contact@example.com"
+              className={errors.contactEmail ? 'border-red-500 focus-visible:ring-red-500' : ''}
             />
             {errors.contactEmail && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
           </div>
@@ -343,7 +365,7 @@ export function SubmitArtistPage() {
         {/* Biography */}
         <Card className="p-4 md:p-6">
         <h2 className="text-2xl font-heading font-semibold mb-4">Біографія *</h2>
-        
+
         <div className="space-y-4">
           <div>
             <Textarea
@@ -351,6 +373,7 @@ export function SubmitArtistPage() {
               {...register('biography', { required: true, maxLength: 5000 })}
               placeholder="Розкажіть про артиста..."
               rows={6}
+              className={errors.biography ? 'border-red-500 focus-visible:ring-red-500' : ''}
             />
             {errors.biography && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (макс 5000 символів)</p>}
           </div>
@@ -358,18 +381,24 @@ export function SubmitArtistPage() {
         </Card>
 
         {/* Media Files */}
-        <Card className="p-4 md:p-6">
+        <Card className="p-4 md:p-6" id="images-upload">
         <h2 className="text-2xl font-heading font-semibold mb-4">Медіа файли</h2>
-        
+
         <div className="space-y-4">
           {/* Images */}
           <div>
             <Label>Фото * (мінімум 1)</Label>
             <div className="mt-2">
-              <label className="flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-accent/30 rounded-card cursor-pointer hover:border-accent transition-colors">
+              <label className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-card cursor-pointer transition-colors ${
+                imagesError
+                  ? 'border-red-500 hover:border-red-600'
+                  : 'border-accent/30 hover:border-accent'
+              }`}>
                 <div className="text-center">
-                  <Upload className="w-8 h-8 mx-auto text-accent mb-2" />
-                  <p className="text-sm text-muted-foreground">Натисніть для завантаження фото</p>
+                  <Upload className={`w-8 h-8 mx-auto mb-2 ${imagesError ? 'text-red-500' : 'text-accent'}`} />
+                  <p className={`text-sm ${imagesError ? 'text-red-500' : 'text-muted-foreground'}`}>
+                    Натисніть для завантаження фото
+                  </p>
                 </div>
                 <input
                   type="file"
@@ -380,6 +409,7 @@ export function SubmitArtistPage() {
                 />
               </label>
             </div>
+            {imagesError && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
             {images.length > 0 && (
               <div className="mt-2 space-y-1">
                 {images.map((file, idx) => (
