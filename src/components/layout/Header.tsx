@@ -35,7 +35,7 @@ export function Header() {
               Про нас
             </Link>
             <Link to="/submit" className="text-sm font-medium hover:text-accent transition-colors">
-              Додати
+              Додати!
             </Link>
           </nav>
           
