@@ -13,6 +13,7 @@ export function MapPage() {
   const { selectedRegion, selectedTypes } = useMapStore();
   const [selectedPin, setSelectedPin] = useState<MapPinDTO | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const { data: pins, isLoading, error } = useMapPins({
     region: selectedRegion,
@@ -49,10 +50,9 @@ export function MapPage() {
       />
 
       <div className="relative w-full h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)]" style={{ height: 'calc(100dvh - 4rem)' }}>
-        {/* Filters - positioned absolutely, mobile-optimized */}
-        <div className="absolute bottom-20 left-2 md:bottom-4 md:left-4 z-10 w-[calc(100vw-1rem)] max-w-xs md:max-w-sm">
-
-          <MapFilters />
+        {/* Filters */}
+        <div className="absolute bottom-20 left-2 md:bottom-4 md:left-4 z-10">
+          <MapFilters isOpen={isFiltersOpen} onOpenChange={setIsFiltersOpen} />
         </div>
 
         {/* Loading state */}
