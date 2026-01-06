@@ -16,25 +16,25 @@ export function Header() {
         
         <div className="flex items-center gap-4 md:gap-6">
           <nav className="hidden md:flex items-center gap-6">
-            <Link to="/" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Карта
             </Link>
-            <Link to="/artists" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/artists" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Артисти
             </Link>
-            <Link to="/events" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/events" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Події
             </Link>
-            <Link to="/radio" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/radio" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Радіо
             </Link>
-            <Link to="/news" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/news" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Новини
             </Link>
-            <Link to="/about" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/about" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Про нас
             </Link>
-            <Link to="/submit" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/submit" className="text-sm font-nav font-medium hover:text-accent transition-colors">
               Додати
             </Link>
           </nav>

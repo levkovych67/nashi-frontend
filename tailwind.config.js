@@ -52,11 +52,15 @@ export default {
   		},
   		fontFamily: {
   			heading: [
-  				'Cormorant Garamond"',
+  				'Playfair Display',
   				'serif'
   			],
   			body: [
-  				'Manrope',
+  				'Inter',
+  				'sans-serif'
+  			],
+  			nav: [
+  				'Space Grotesk',
   				'sans-serif'
   			]
   		},
