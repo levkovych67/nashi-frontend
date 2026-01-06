@@ -75,7 +75,7 @@ export function PinPreviewDrawer({ pin, isOpen, onClose }: PinPreviewDrawerProps
           {/* Audio preview */}
           {pin.audioUrl && (
             <div>
-              <p className="text-sm text-muted-foreground mb-2">Попередній прослуховування:</p>
+              <p className="text-sm text-muted-foreground mb-2">Слухати:</p>
               <audio controls className="w-full">
                 <source src={pin.audioUrl} type="audio/mpeg" />
                 Ваш браузер не підтримує аудіо елемент.
