@@ -19,7 +19,7 @@ export function ArtistsListPage() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteArtists({ region: selectedRegion, size: 20 });
+  } = useInfiniteArtists({ region: selectedRegion, status: 'APPROVED', size: 20 });
 
   // Flatten all pages into a single array of artists
   const artists = useMemo(

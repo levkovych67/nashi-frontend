@@ -5,9 +5,11 @@ import type { components } from '../generated/types';
 type ArtistViewDTO = components['schemas']['ArtistViewDTO'];
 type PageArtistDTOMinified = components['schemas']['PageArtistDTOMinified'];
 type Region = components['schemas']['EventCreateRequestDTO']['region'];
+type ArtistStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 interface ArtistsListParams {
   region?: Region;
+  status?: ArtistStatus;
   page?: number;
   size?: number;
 }
@@ -21,12 +23,14 @@ export function useArtists(params?: ArtistsListParams) {
         size: params?.size || 20,
         sort: 'createdAt,DESC', // Sort by newest first
         region: params?.region,
+        status: params?.status,
       }),
   });
 }
 
 interface InfiniteArtistsParams {
   region?: Region;
+  status?: ArtistStatus;
   size?: number;
 }
 
@@ -39,6 +43,7 @@ export function useInfiniteArtists(params?: InfiniteArtistsParams) {
         size: params?.size || 20,
         sort: 'createdAt,DESC', // Sort by newest first
         region: params?.region,
+        status: params?.status,
       }),
     getNextPageParam: (lastPage) => {
       if (lastPage.last) return undefined;
