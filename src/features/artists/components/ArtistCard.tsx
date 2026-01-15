@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { MapPin } from 'lucide-react';
 import type { components } from '@/lib/api/generated/types';
 
@@ -16,21 +17,25 @@ export function ArtistCard({ artist }: ArtistCardProps) {
     <Link to={`/artists/${artist.slug}`}>
       <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
         {/* Image */}
-        <div className="relative h-64 overflow-hidden bg-accent/10">
-          {mainImage ? (
-            <img
-              src={mainImage}
-              alt={artist.name || ''}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-accent/20">
+        {mainImage ? (
+          <OptimizedImage
+            src={mainImage}
+            alt={artist.name || ''}
+            containerClassName="h-64 bg-accent/10"
+            className="group-hover:scale-105 transition-transform duration-300"
+            fallback={
               <span className="text-6xl font-heading text-accent">
                 {artist.name?.charAt(0) || '?'}
               </span>
-            </div>
-          )}
-        </div>
+            }
+          />
+        ) : (
+          <div className="h-64 flex items-center justify-center bg-accent/20">
+            <span className="text-6xl font-heading text-accent">
+              {artist.name?.charAt(0) || '?'}
+            </span>
+          </div>
+        )}
 
         {/* Content */}
         <div className="p-4">

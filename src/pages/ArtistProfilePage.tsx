@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useArtistBySlug } from '@/lib/api/hooks/useArtists';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { SEO } from '@/components/SEO';
 import { MapPin, Calendar, ExternalLink, Music, Users } from 'lucide-react';
 import { useState } from 'react';
@@ -67,10 +68,10 @@ export function ArtistProfilePage() {
       {/* Hero Image */}
       {currentImage && (
         <div className="relative w-full h-[50vh] md:h-[60vh] bg-accent/10">
-          <img
+          <OptimizedImage
             src={currentImage}
             alt={artist.name || ''}
-            className="w-full h-full object-cover"
+            containerClassName="w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
         </div>
@@ -130,7 +131,7 @@ export function ArtistProfilePage() {
                     idx === selectedImage ? 'border-accent' : 'border-transparent opacity-60'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <OptimizedImage src={img} alt="" containerClassName="w-full h-full" />
                 </button>
               ))}
             </div>

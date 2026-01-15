@@ -1,5 +1,6 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { useNavigate } from 'react-router-dom';
 import type { components } from '@/lib/api/generated/types';
 
@@ -44,13 +45,11 @@ export function PinPreviewDrawer({ pin, isOpen, onClose }: PinPreviewDrawerProps
         <div className="mt-6 space-y-4 pb-safe">
           {/* Avatar/Image */}
           {pin.avatarUrl && (
-            <div className="w-full h-48 rounded-card overflow-hidden">
-              <img
-                src={pin.avatarUrl}
-                alt={pin.name || ''}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <OptimizedImage
+              src={pin.avatarUrl}
+              alt={pin.name || ''}
+              containerClassName="w-full h-48 rounded-card"
+            />
           )}
 
           {/* Info */}

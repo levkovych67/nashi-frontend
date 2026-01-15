@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
@@ -18,13 +19,12 @@ export function NewsCard({ post }: NewsCardProps) {
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300">
       {/* Image */}
       {post.imageUrl && (
-        <div className="relative h-48 overflow-hidden bg-accent/10">
-          <img
-            src={post.imageUrl}
-            alt=""
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
+        <OptimizedImage
+          src={post.imageUrl}
+          alt=""
+          containerClassName="h-48 bg-accent/10"
+          className="group-hover:scale-105 transition-transform duration-300"
+        />
       )}
 
       {/* Content */}

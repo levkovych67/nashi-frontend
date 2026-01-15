@@ -1,3 +1,4 @@
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import type { components } from '@/lib/api/generated/types';
 
 type MapPinDTO = components['schemas']['MapPinDTO'];
@@ -22,10 +23,15 @@ export function MarkerListItem({ pin, onClick, index }: MarkerListItemProps) {
         {pin.type === 'ARTIST' ? (
           <div className="w-14 h-14 rounded-lg border-2 border-accent/20 group-hover:border-accent shadow-sm overflow-hidden bg-card transition-colors">
             {pin.avatarUrl ? (
-              <img
+              <OptimizedImage
                 src={pin.avatarUrl}
                 alt={pin.name || ''}
-                className="w-full h-full object-cover"
+                containerClassName="w-full h-full"
+                fallback={
+                  <span className="text-accent font-heading text-xl">
+                    {pin.name?.charAt(0) || '?'}
+                  </span>
+                }
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-accent/10 text-accent font-heading text-xl">

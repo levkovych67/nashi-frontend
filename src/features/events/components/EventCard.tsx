@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
@@ -19,13 +20,12 @@ export function EventCard({ event, onViewDetails }: EventCardProps) {
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300">
       {/* Event Image */}
       {event.eventImageKey && (
-        <div className="relative h-48 overflow-hidden bg-accent/10">
-          <img
-            src={event.eventImageKey}
-            alt={event.title || ''}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
+        <OptimizedImage
+          src={event.eventImageKey}
+          alt={event.title || ''}
+          containerClassName="h-48 bg-accent/10"
+          className="group-hover:scale-105 transition-transform duration-300"
+        />
       )}
 
       {/* Content */}
