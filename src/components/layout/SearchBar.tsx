@@ -86,7 +86,7 @@ export function SearchBar() {
   const showLoading = isFetching && debouncedQuery.length >= 2;
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative flex w-full justify-end">
       <motion.div
         initial={false}
         animate={{
@@ -98,15 +98,13 @@ export function SearchBar() {
         <div className="relative flex items-center">
           {/* Search Icon Button (Collapsed State) */}
           {!isExpanded && (
-            <motion.button
+            <button
               onClick={handleExpand}
-              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/80 bg-gradient-to-b from-white/75 to-white/30 text-[#0a6cc2] shadow-[0_1px_3px_rgba(10,60,120,0.25),inset_0_1px_0_#fff] transition-shadow duration-1000 hover:shadow-[0_0_12px_2px_rgba(110,210,255,0.8),inset_0_1px_0_#fff] hover:duration-300"
               aria-label="Пошук"
             >
-              <Search className="w-5 h-5 text-foreground" />
-            </motion.button>
+              <Search className="h-5 w-5" />
+            </button>
           )}
 
           {/* Expanded Search Input */}
@@ -131,17 +129,18 @@ export function SearchBar() {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Шукати артистів..."
-                    className="w-full h-10 pl-10 pr-10 bg-background/80 backdrop-blur-md border border-accent/20 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
+                    aria-label="Шукати артистів"
+                    className="aero-field h-10 w-full pl-10 pr-10 text-sm placeholder:italic"
                   />
 
                   {/* Loading Spinner or Clear Button */}
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {showLoading ? (
-                      <Loader2 className="w-4 h-4 text-accent animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin text-[#0a6cc2]" />
                     ) : query ? (
                       <button
                         onClick={() => setQuery('')}
-                        className="hover:bg-secondary rounded-full p-1 transition-colors"
+                        className="aero-hover-row p-1"
                         aria-label="Очистити"
                       >
                         <X className="w-3 h-3 text-muted-foreground" />
@@ -149,7 +148,7 @@ export function SearchBar() {
                     ) : (
                       <button
                         onClick={handleCollapse}
-                        className="hover:bg-secondary rounded-full p-1 transition-colors"
+                        className="aero-hover-row p-1"
                         aria-label="Закрити"
                       >
                         <X className="w-3 h-3 text-muted-foreground" />
@@ -171,12 +170,12 @@ export function SearchBar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-card/95 backdrop-blur-md border border-accent/20 rounded-card shadow-elegant max-h-80 overflow-y-auto z-50"
+            className="aero-glass absolute left-0 right-0 top-full z-50 mt-2 max-h-80 min-w-[16rem] overflow-y-auto"
           >
             {/* Loading State */}
             {showLoading && (
               <div className="px-4 py-6 text-center">
-                <Loader2 className="w-6 h-6 text-accent animate-spin mx-auto mb-2" />
+                <div className="aero-spinner mx-auto mb-2 !h-8 !w-8" />
                 <p className="text-sm text-muted-foreground">Завантаження...</p>
               </div>
             )}
@@ -192,17 +191,16 @@ export function SearchBar() {
 
             {/* Results List */}
             {showResults && (
-              <div className="py-2">
+              <div className="p-1">
                 {results.map((artist, index) => (
                   <button
                     key={artist.id}
                     onClick={() => handleSelectArtist(artist)}
-                    className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-secondary transition-colors text-left ${
-                      selectedIndex === index ? 'bg-secondary' : ''
-                    }`}
+                    data-state={selectedIndex === index ? 'active' : undefined}
+                    className="aero-hover-row flex w-full items-center gap-3 px-3 py-2.5 text-left"
                   >
                     {/* Artist Avatar */}
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-secondary flex-shrink-0">
+                    <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border border-[#9cc6ec] bg-[#e4f1fc]">
                       {artist.imageUrls && artist.imageUrls.length > 0 ? (
                         <img
                           src={`${config.cdnUrl}${artist.imageUrls[0]}`}

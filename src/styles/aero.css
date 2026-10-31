@@ -148,13 +148,34 @@
   .aero-taskbar {
     background:
       var(--aero-streaks),
-      linear-gradient(180deg, rgba(120, 165, 210, 0.6), rgba(30, 62, 105, 0.74) 48%, rgba(12, 30, 60, 0.86));
+      linear-gradient(180deg, rgba(90, 135, 185, 0.82), rgba(30, 62, 105, 0.86) 48%, rgba(12, 30, 60, 0.92));
     background-attachment: fixed, scroll;
     -webkit-backdrop-filter: var(--aero-frame-blur);
     backdrop-filter: var(--aero-frame-blur);
     border-top: 1px solid rgba(255, 255, 255, 0.45);
     box-shadow: 0 -1px 0 rgba(0, 20, 50, 0.45), 0 -6px 18px rgba(0, 30, 70, 0.22);
     color: #fff;
+  }
+
+  /* A taskbar button: clear until touched, a lit glass tile for the current page. */
+  .aero-task {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 10, 30, 0.8);
+    transition: background var(--aero-glow-out) var(--aero-ease), border-color var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-task:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+    border-color: rgba(255, 255, 255, 0.35);
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-task[aria-current='page'] {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(140, 220, 255, 0.45), rgba(140, 220, 255, 0) 70%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.04) 51%, rgba(255, 255, 255, 0.14));
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 8px rgba(120, 200, 255, 0.35);
   }
 
   /* An Aero window: a frame of tinted glass around a white client area. */

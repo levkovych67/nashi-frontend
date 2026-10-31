@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, Loader2, RefreshCw } from 'lucide-react';
+import { CheckCircle2, XCircle, RefreshCw, X } from 'lucide-react';
 import { useSubmissionStore } from '@/stores/useSubmissionStore';
 import { Button } from '@/components/ui/button';
 
@@ -7,101 +7,65 @@ export function SubmissionProgressWidget() {
   const { status, type, progress, message, error, retry, reset } = useSubmissionStore();
 
   const isVisible = status !== 'IDLE';
+  const edge =
+    status === 'SUCCESS' ? 'border-l-[var(--aero-grass-ink)]' : status === 'ERROR' ? 'border-l-[var(--aero-danger)]' : 'border-l-[var(--aero-aqua)]';
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.9 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed bottom-6 right-6 z-50 w-80 max-w-[calc(100vw-3rem)]"
+          exit={{ opacity: 0, y: 20, scale: 0.95 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="fixed bottom-[calc(var(--aero-taskbar-height)+env(safe-area-inset-bottom)+1rem)] right-4 z-50 w-80 max-w-[calc(100vw-2rem)] md:bottom-6 md:right-6"
+          role="status"
+          aria-live="polite"
         >
-          <div
-            className={`rounded-card border shadow-elegant p-4 backdrop-blur-md ${
-              status === 'SUCCESS'
-                ? 'bg-green-50/90 dark:bg-green-950/90 border-green-200 dark:border-green-800'
-                : status === 'ERROR'
-                ? 'bg-red-50/90 dark:bg-red-950/90 border-red-200 dark:border-red-800'
-                : 'bg-card/90 border-accent/20'
-            }`}
-          >
+          <div className={`aero-glass border-l-4 p-4 ${edge}`}>
             {/* Header */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="mb-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                {status === 'UPLOADING' && (
-                  <Loader2 className="w-5 h-5 text-accent animate-spin" />
-                )}
-                {status === 'SUCCESS' && (
-                  <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
-                )}
-                {status === 'ERROR' && (
-                  <XCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
-                )}
-                <span className="font-medium text-sm">
-                  {type === 'ARTIST' ? 'Додавання артиста' : 'Додавання події'}
-                </span>
+                {status === 'UPLOADING' && <div className="aero-spinner !h-5 !w-5 !border-[3px]" aria-hidden="true" />}
+                {status === 'SUCCESS' && <CheckCircle2 className="h-5 w-5 text-[var(--aero-grass-ink)]" aria-hidden="true" />}
+                {status === 'ERROR' && <XCircle className="h-5 w-5 text-[var(--aero-danger)]" aria-hidden="true" />}
+                <span className="aero-heading text-sm">{type === 'ARTIST' ? 'Додавання артиста' : 'Додавання події'}</span>
               </div>
 
               {status !== 'UPLOADING' && (
                 <button
                   onClick={reset}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="aero-hover-row -mr-2 -mt-2 flex h-11 w-11 items-center justify-center text-muted-foreground"
                   aria-label="Закрити"
                 >
-                  ×
+                  <X className="h-4 w-4" />
                 </button>
               )}
             </div>
 
             {/* Message */}
-            <p className="text-sm text-muted-foreground mb-3">{message}</p>
+            <p className="mb-3 text-sm text-muted-foreground">{message}</p>
 
-            {/* Progress Bar */}
-            {status === 'UPLOADING' && (
-              <div className="relative h-2 bg-secondary rounded-full overflow-hidden mb-2">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="absolute left-0 top-0 h-full bg-accent rounded-full"
-                />
-              </div>
-            )}
-
-            {/* Success Progress Bar */}
-            {status === 'SUCCESS' && (
-              <div className="relative h-2 bg-secondary rounded-full overflow-hidden mb-2">
-                <motion.div
-                  initial={{ width: '90%' }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="absolute left-0 top-0 h-full bg-green-600 dark:bg-green-400 rounded-full"
-                />
+            {/* Windows 7 progress bar */}
+            {(status === 'UPLOADING' || status === 'SUCCESS') && (
+              <div className="aero-progress mb-2" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={status === 'SUCCESS' ? 100 : progress}>
+                <div className="aero-progress__bar" style={{ width: `${status === 'SUCCESS' ? 100 : progress}%` }} />
               </div>
             )}
 
             {/* Error State */}
             {status === 'ERROR' && error && (
               <>
-                <p className="text-sm text-red-600 dark:text-red-400 mb-3">{error}</p>
-                <Button
-                  onClick={retry}
-                  size="sm"
-                  variant="outline"
-                  className="w-full"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
+                <p className="mb-3 text-sm text-[var(--aero-danger)]">{error}</p>
+                <Button onClick={retry} size="sm" variant="outline" className="w-full">
+                  <RefreshCw className="mr-2 h-4 w-4" />
                   Спробувати знову
                 </Button>
               </>
             )}
 
             {/* Progress Percentage */}
-            {status === 'UPLOADING' && (
-              <p className="text-xs text-muted-foreground text-right">{progress}%</p>
-            )}
+            {status === 'UPLOADING' && <p className="text-right text-xs text-muted-foreground">{progress}%</p>}
           </div>
         </motion.div>
       )}
