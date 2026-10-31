@@ -1,207 +1,138 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import './aero.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* The shadcn/ui variables, mapped onto the Frutiger Aero tokens in aero.css (HSL triplets). One light look only. */
 @layer base {
-  body {
-    @apply bg-background text-foreground font-body;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
-  }
   :root {
-    /* === LIGHT THEME: "Morning Steppe" === */
-    
-    /* Backgrounds - Soft warm paper-like foundation */
-    --background: 30 20% 98%;           /* #FDFBF9 - Warm off-white */
-    --foreground: 240 4% 16%;           /* #28282B - Deep warm iron-gray */
+    --background: 201 100% 95%; /* #e8f7ff horizon */
+    --foreground: 214 33% 18%; /* #1e2b3c */
 
-    /* Surfaces - Pure white for cards with "lift" */
-    --card: 0 0% 100%;                  /* #FFFFFF - Pure white cards */
-    --card-foreground: 240 4% 16%;      /* #28282B - Primary text */
-    
-    --popover: 0 0% 100%;               /* #FFFFFF */
-    --popover-foreground: 240 4% 16%;   /* #28282B */
+    --card: 0 0% 100%;
+    --card-foreground: 214 33% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 214 33% 18%;
 
-    /* Primary Actions - Deep charcoal */
-    --primary: 240 4% 16%;              /* #28282B */
-    --primary-foreground: 0 0% 100%;    /* #FFFFFF */
+    --primary: 208 90% 40%; /* #0a6cc2 aqua deep */
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary Elements - Subtle warm gray */
-    --secondary: 30 20% 96%;            /* #F6F4F2 - Surface hover */
-    --secondary-foreground: 240 4% 16%; /* #28282B */
+    --secondary: 213 81% 96%; /* #ebf3fd Explorer hover */
+    --secondary-foreground: 214 33% 18%;
 
-    /* Muted/Subtle - For secondary text */
-    --muted: 30 20% 96%;                /* #F6F4F2 */
-    --muted-foreground: 240 4% 46%;     /* #71717A - Secondary text */
+    --muted: 210 70% 96%;
+    --muted-foreground: 212 21% 35%; /* #46586c */
 
-    /* Accent - "Antique Wheat" Gold */
-    --accent: 42 68% 48%;               /* #CD9C26 - Rich mature gold */
-    --accent-foreground: 0 0% 100%;     /* #FFFFFF */
+    --accent: 210 100% 40%; /* #0066cc Windows 7 link */
+    --accent-foreground: 0 0% 100%;
 
-    /* Destructive/Error */
-    --destructive: 0 84.2% 60.2%;       /* #E74C3C */
-    --destructive-foreground: 0 0% 98%; /* #FAFAFA */
+    --destructive: 5 75% 44%; /* #c42b1c */
+    --destructive-foreground: 0 0% 100%;
 
-    /* Borders - Subtle warm */
-    --border: 30 10% 90%;               /* #E6E4E2 - Subtle border */
-    --input: 30 10% 90%;                /* #E6E4E2 */
-    --ring: 42 68% 48%;                 /* #CD9C26 - Gold focus ring */
+    --border: 212 53% 85%; /* cool glass edge */
+    --input: 226 5% 69%; /* #abadb3 Windows 7 field */
+    --ring: 210 100% 40%; /* #0066cc */
 
-    /* Chart Colors */
-    --chart-1: 42 68% 48%;              /* Gold */
-    --chart-2: 173 58% 39%;             /* Teal */
-    --chart-3: 197 37% 24%;             /* Navy */
-    --chart-4: 27 87% 67%;              /* Orange */
-    --chart-5: 240 4% 46%;              /* Gray */
+    --chart-1: 208 90% 40%;
+    --chart-2: 97 64% 45%;
+    --chart-3: 198 100% 45%;
+    --chart-4: 206 78% 61%;
+    --chart-5: 212 21% 35%;
 
     --radius: 0.5rem;
   }
-  .dark {
-    /* === DARK THEME: "Midnight Kyiv" === */
-    
-    /* Backgrounds - Rich deep charcoal, NOT pure black */
-    --background: 240 5% 10%;           /* #18181B - Deep charcoal */
-    --foreground: 30 10% 96%;           /* #F5F3F0 - Bone white (avoids halation) */
 
-    /* Surfaces - Lighter elevation with warmth */
-    --card: 240 4% 16%;                 /* #27272A - Elevated surface */
-    --card-foreground: 30 10% 96%;      /* #F5F3F0 */
-    
-    --popover: 240 4% 16%;              /* #27272A */
-    --popover-foreground: 30 10% 96%;   /* #F5F3F0 */
-
-    /* Primary Actions - Bright for contrast */
-    --primary: 30 10% 96%;              /* #F5F3F0 */
-    --primary-foreground: 240 5% 10%;   /* #18181B */
-
-    /* Secondary Elements - Subtle elevation */
-    --secondary: 240 4% 20%;            /* #323236 - Surface hover */
-    --secondary-foreground: 30 10% 96%; /* #F5F3F0 */
-
-    /* Muted/Subtle - For secondary text */
-    --muted: 240 4% 20%;                /* #323236 */
-    --muted-foreground: 240 5% 65%;     /* #9E9EA3 - Secondary text */
-
-    /* Accent - "Luminous Amber" (glows in dark) */
-    --accent: 45 90% 60%;               /* #F5C647 - Glowing amber */
-    --accent-foreground: 240 5% 10%;    /* #18181B - Dark text on gold */
-
-    /* Destructive/Error */
-    --destructive: 0 62.8% 30.6%;       /* #7C1D13 */
-    --destructive-foreground: 0 0% 98%; /* #FAFAFA */
-
-    /* Borders - Subtle definition */
-    --border: 240 4% 24%;               /* #3D3D40 - Subtle border */
-    --input: 240 4% 24%;                /* #3D3D40 */
-    --ring: 45 90% 60%;                 /* #F5C647 - Gold focus ring */
-
-    /* Chart Colors - Vibrant for dark mode */
-    --chart-1: 45 90% 60%;              /* Amber */
-    --chart-2: 160 60% 45%;             /* Green */
-    --chart-3: 220 70% 50%;             /* Blue */
-    --chart-4: 280 65% 60%;             /* Purple */
-    --chart-5: 340 75% 55%;             /* Pink */
-  }
-}
-
-
-
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground font-body;
+    line-height: 1.45;
   }
-  
-  /* === Fluid Typography System (Mobile-First) === */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+    color: var(--aero-instruction);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* Fluid type (mobile first). */
   h1 {
-    font-size: clamp(1.75rem, 4vw + 1rem, 3.5rem); /* 28px -> 56px */
+    font-size: clamp(1.75rem, 4vw + 1rem, 3rem);
     line-height: 1.2;
   }
-  
   h2 {
-    font-size: clamp(1.5rem, 3vw + 0.75rem, 2.5rem); /* 24px -> 40px */
+    font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
     line-height: 1.3;
   }
-  
   h3 {
-    font-size: clamp(1.25rem, 2vw + 0.5rem, 1.875rem); /* 20px -> 30px */
-    line-height: 1.4;
+    font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+    line-height: 1.35;
   }
-  
   h4 {
-    font-size: clamp(1.125rem, 1.5vw + 0.5rem, 1.5rem); /* 18px -> 24px */
-    line-height: 1.5;
+    font-size: clamp(1.125rem, 1.5vw + 0.5rem, 1.375rem);
+    line-height: 1.45;
   }
-  
   h5 {
-    font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem); /* 16px -> 20px */
+    font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem);
     line-height: 1.5;
   }
-  
   h6 {
-    font-size: clamp(0.875rem, 0.5vw + 0.5rem, 1.125rem); /* 14px -> 18px */
+    font-size: clamp(0.875rem, 0.5vw + 0.5rem, 1.125rem);
     line-height: 1.5;
   }
-  
-  /* === Dynamic Viewport Height Support (iOS Safari Fix) === */
+
+  /* Dynamic viewport height (iOS Safari). */
   .min-h-screen-mobile {
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    min-height: 100dvh;
   }
-  
   .h-screen-mobile {
     height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    height: 100dvh;
   }
 }
 
-/* === Premium Shadow System === */
 @layer utilities {
-  /* Light Theme: Soft, diffused, warm shadows for depth */
+  /* Soft shadows, now cool and blue like the glass. */
   .shadow-elegant {
-    box-shadow: 0 4px 20px -2px rgba(40, 40, 43, 0.08);
+    box-shadow: 0 4px 18px -2px rgba(8, 54, 112, 0.16);
   }
-  
   .shadow-elegant-lg {
-    box-shadow: 0 10px 40px -4px rgba(40, 40, 43, 0.12);
+    box-shadow: 0 10px 36px -4px rgba(8, 54, 112, 0.22);
   }
-  
   .shadow-elegant-xl {
-    box-shadow: 0 20px 60px -8px rgba(40, 40, 43, 0.15);
+    box-shadow: 0 20px 56px -8px rgba(8, 54, 112, 0.26);
   }
 
-  /* Dark Theme: Use subtle borders instead of shadows */
-  .dark .shadow-elegant,
-  .dark .shadow-elegant-lg,
-  .dark .shadow-elegant-xl {
-    box-shadow: none;
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
-  /* === Custom Scrollbar for Marker List === */
+  /* Scrollbar of the marker list. */
   .marker-list::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
   }
-  
   .marker-list::-webkit-scrollbar-track {
     background: transparent;
   }
-  
   .marker-list::-webkit-scrollbar-thumb {
-    background: hsl(var(--accent));
-    border-radius: 2px;
-  }
-
-  .marker-list::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--accent) / 0.8);
+    background: linear-gradient(90deg, #cfe3f7, #9cc6ec);
+    border-radius: 3px;
   }
 }
 
-/* === Map Marker Animations === */
+/* Map marker list animations. */
 @keyframes slideIn {
   from {
     opacity: 0;

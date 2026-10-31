@@ -1,6 +1,19 @@
+// Frutiger Aero type: Segoe UI where it lives, Frutiger's own Avenir on Apple, then free humanist faces.
+const aeroFont = [
+  'Segoe UI',
+  'Frutiger',
+  'Frutiger Linotype',
+  'Avenir Next',
+  'Avenir',
+  'Lucida Grande',
+  'Noto Sans',
+  'Open Sans',
+  'Roboto',
+  'sans-serif'
+];
+
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: ["class"],
     content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -13,7 +26,6 @@ export default {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
-  			text: '#2D2D2D',
   			foreground: 'hsl(var(--foreground))',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
@@ -51,18 +63,10 @@ export default {
   			}
   		},
   		fontFamily: {
-  			heading: [
-  				'Playfair Display',
-  				'serif'
-  			],
-  			body: [
-  				'Inter',
-  				'sans-serif'
-  			],
-  			nav: [
-  				'Space Grotesk',
-  				'sans-serif'
-  			]
+  			sans: aeroFont,
+  			heading: aeroFont,
+  			body: aeroFont,
+  			nav: aeroFont
   		},
   		borderRadius: {
   			soft: '8px',

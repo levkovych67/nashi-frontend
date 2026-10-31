@@ -1,12 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Moon, Sun } from 'lucide-react';
-import { useThemeStore } from '@/stores/useThemeStore';
-import { Button } from '@/components/ui/button';
 import { SearchBar } from './SearchBar';
 
 export function Header() {
-  const { theme, toggleTheme } = useThemeStore();
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-accent/20 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -44,20 +39,6 @@ export function Header() {
             <SearchBar />
           </div>
           
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="hover:bg-accent/10 transition-colors"
-            title={theme === 'light' ? 'Темна тема' : 'Світла тема'}
-          >
-            {theme === 'light' ? (
-              <Moon className="w-5 h-5" />
-            ) : (
-              <Sun className="w-5 h-5" />
-            )}
-          </Button>
         </div>
       </div>
     </header>

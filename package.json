@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "type-check": "tsc --noEmit",
-    "generate:types": "openapi-typescript swagger.json -o src/lib/api/generated/types.ts"
+    "generate:types": "openapi-typescript swagger.json -o src/lib/api/generated/types.ts",
+    "test": "node --test \"tests/**/*.test.{mjs,ts}\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

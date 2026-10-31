@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import Map, { Marker, NavigationControl } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { config } from '@/lib/config';
-import { useThemeStore } from '@/stores/useThemeStore';
 import type { components } from '@/lib/api/generated/types';
 import { groupPinsByLocation } from '@/lib/utils/groupPinsByLocation';
 import { StackMarker } from './StackMarker';
@@ -35,7 +34,6 @@ const UKRAINE_BOUNDS = {
 export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerProps) {
   const mapRef = useRef<any>(null);
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
-  const { theme } = useThemeStore();
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredGroupKey, setHoveredGroupKey] = useState<string | null>(null);
   const [isMapReady, setIsMapReady] = useState(false);
@@ -117,26 +115,13 @@ export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerP
     return () => {
       map.off('load', handleLoad);
     };
-  }, [theme]); // Re-run when theme changes
+  }, []);
 
   // Group pins by location to handle overlapping markers
   const pinGroups = groupPinsByLocation(pins);
 
   // Map style based on theme with Ukrainian language
-  const mapStyle = theme === 'dark'
-    // DataViz dark style with Ukrainian language
-    ? `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
-    // DataViz light style with Ukrainian language
-    : `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}&language=uk`;
-    
-  // Alternative styles (commented out for reference):
-  // Basic styles (clean, minimalist):
-  // ? `https://api.maptiler.com/maps/basic-v2-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
-  // : `https://api.maptiler.com/maps/basic-v2/style.json?key=${config.mapTilerApiKey}&language=uk`;
-  //
-  // Streets styles (detailed street-level view):
-  // ? `https://api.maptiler.com/maps/streets-v2-dark/style.json?key=${config.mapTilerApiKey}&language=uk`
-  // : `https://api.maptiler.com/maps/streets-v2/style.json?key=${config.mapTilerApiKey}&language=uk`;
+  const mapStyle = `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}&language=uk`;
 
   return (
     <div className="w-full h-full">

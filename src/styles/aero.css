@@ -1,0 +1,490 @@
+/* Frutiger Aero for Nashi (docs/superpowers/specs/2026-10-31-aero-redesign-design.md). Values come from the Aero
+   encyclopedia, chapter 11 «Переклад на веб» (~/development/encyclopedia/aero/11-web.md): a day sky with aurora, grass
+   and rising bubbles behind white glass, glossy gel buttons, Windows 7 command buttons, fields and selection.
+   Imported first by globals.css, so the component classes sit in Tailwind's components layer and utilities still win. */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    /* Sky of the wallpaper, top to horizon; water and grass of the era's imagery. */
+    --aero-sky-top: #1f6fc5;
+    --aero-sky-mid: #4fa3e8;
+    --aero-sky-low: #9ad4f7;
+    --aero-horizon: #e8f7ff;
+    --aero-aqua: #00a2e8;
+    --aero-aqua-deep: #0a6cc2;
+    --aero-grass: #5fbf2a;
+    --aero-grass-deep: #2f8a10;
+    /* White text needs a deeper green than the grass token: #2f8a10 gives only 4.4 : 1. */
+    --aero-grass-ink: #267a0b;
+    --aero-danger: #c42b1c;
+    /* Text: dark slate instead of black, the Windows «main instruction» blue, Windows 7 links. */
+    --aero-text: #1e2b3c;
+    --aero-text-2: #46586c;
+    --aero-instruction: #003399;
+    --aero-link: #0066cc;
+    --aero-link-hover: #3399ff;
+    /* The link blue holds 5.6 : 1 on white; the selection blue #3399ff only 2.9 : 1. */
+    --aero-focus: #0066cc;
+    /* White glass: a light fill over a blurred, brighter page, a white inner line, a cool edge and a soft shadow. */
+    --aero-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.74));
+    --aero-glass-solid: #f3f8fd;
+    --aero-glass-blur: blur(12px) saturate(150%);
+    --aero-glass-edge: rgba(70, 130, 200, 0.38);
+    --aero-glass-shadow: 0 0 0 1px var(--aero-glass-edge), 0 8px 26px rgba(8, 54, 112, 0.18),
+      0 1px 3px rgba(8, 54, 112, 0.14), inset 0 1px 0 #fff;
+    /* Frame glass is only lightly blurred and carries reflection streaks at 54°. */
+    --aero-frame-blur: blur(4px) saturate(150%);
+    --aero-streaks: repeating-linear-gradient(54deg, rgba(255, 255, 255, 0) 0 46px, rgba(255, 255, 255, 0.13) 46px 62px,
+      rgba(255, 255, 255, 0) 62px 118px, rgba(255, 255, 255, 0.07) 118px 126px, rgba(255, 255, 255, 0) 126px 210px);
+    /* Gel: a bright cap with a hard edge at the middle and light pooling at the bottom. */
+    --aero-gloss: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.18) 48%,
+      rgba(255, 255, 255, 0) 50%);
+    --aero-underglow: radial-gradient(ellipse 75% 55% at 50% 112%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+    /* Windows 7 list hover and selection (Explorer). */
+    --aero-hover: linear-gradient(180deg, #fafbfd, #ebf3fd);
+    --aero-hover-edge: #b8d6fb;
+    --aero-select: linear-gradient(180deg, #dcebfc, #c1dbfc);
+    --aero-select-edge: #7da2ce;
+    --aero-font: 'Segoe UI', 'Frutiger', 'Frutiger Linotype', 'Avenir Next', Avenir, 'Lucida Grande', 'Noto Sans',
+      'Open Sans', Roboto, sans-serif;
+    --aero-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    /* Buttons light up in 0.3 s and fade back in 1 s; windows appear in about 250 ms. */
+    --aero-glow-in: 0.3s;
+    --aero-glow-out: 1s;
+    --aero-appear: 250ms;
+    --aero-taskbar-height: 64px;
+    background: var(--aero-sky-low);
+  }
+
+  body {
+    background: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  ::selection {
+    background: #3399ff;
+    color: #fff;
+  }
+
+  :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--aero-focus);
+    outline-offset: 2px;
+  }
+
+  /* The wallpaper: two fixed layers behind everything — the sky with aurora ribbons and a grass hill, and a tile of
+     bokeh bubbles that drifts upwards on the compositor. Safari on iPhone ignores background-attachment: fixed. */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+  }
+  body::before {
+    top: 0;
+    bottom: 0;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse 70% 45% at 18% 4%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%),
+      linear-gradient(162deg, rgba(255, 255, 255, 0) 30%, rgba(150, 255, 220, 0.28) 38%, rgba(255, 255, 255, 0.18) 41%,
+        rgba(255, 255, 255, 0) 50%),
+      linear-gradient(170deg, rgba(255, 255, 255, 0) 44%, rgba(120, 220, 255, 0.3) 52%, rgba(255, 255, 255, 0) 60%),
+      radial-gradient(ellipse 120% 30% at 50% 118%, #7fd24a 0, #4caf22 45%, rgba(76, 175, 34, 0) 70%),
+      linear-gradient(180deg, var(--aero-sky-top) 0%, var(--aero-sky-mid) 32%, var(--aero-sky-low) 64%,
+        var(--aero-horizon) 100%);
+  }
+  body::after {
+    top: 0;
+    height: calc(100% + 900px);
+    z-index: -1;
+    background:
+      radial-gradient(circle 20px at 90px 140px, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08) 62%,
+        rgba(255, 255, 255, 0.7) 72%, rgba(255, 255, 255, 0) 76%),
+      radial-gradient(circle 9px at 260px 420px, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.06) 60%,
+        rgba(255, 255, 255, 0.7) 72%, rgba(255, 255, 255, 0) 78%),
+      radial-gradient(circle 34px at 470px 260px, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.05) 64%,
+        rgba(255, 255, 255, 0.55) 73%, rgba(255, 255, 255, 0) 77%),
+      radial-gradient(circle 14px at 610px 640px, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.07) 62%,
+        rgba(255, 255, 255, 0.7) 72%, rgba(255, 255, 255, 0) 77%),
+      radial-gradient(circle 24px at 180px 760px, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.06) 63%,
+        rgba(255, 255, 255, 0.6) 72%, rgba(255, 255, 255, 0) 77%),
+      radial-gradient(circle 6px at 400px 840px, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.1) 60%,
+        rgba(255, 255, 255, 0.8) 72%, rgba(255, 255, 255, 0) 80%),
+      radial-gradient(circle 60px at 640px 80px, rgba(160, 230, 255, 0.22), rgba(160, 230, 255, 0) 70%),
+      radial-gradient(circle 90px at 60px 520px, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 70%);
+    background-size: 720px 900px;
+    animation: aero-bubbles 30s linear infinite;
+    will-change: transform;
+  }
+}
+
+@layer components {
+  /* White glass for cards and panels. */
+  .aero-glass {
+    background: var(--aero-glass);
+    -webkit-backdrop-filter: var(--aero-glass-blur);
+    backdrop-filter: var(--aero-glass-blur);
+    box-shadow: var(--aero-glass-shadow);
+    border-radius: 8px;
+    color: var(--aero-text);
+  }
+
+  /* Frame glass (the header bar): light blur, 54° streaks anchored to the screen, a white line along the bottom. */
+  .aero-frame {
+    background:
+      var(--aero-streaks),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.34) 50%, rgba(220, 240, 255, 0.24) 51%,
+        rgba(255, 255, 255, 0.44));
+    background-attachment: fixed, scroll;
+    -webkit-backdrop-filter: var(--aero-frame-blur);
+    backdrop-filter: var(--aero-frame-blur);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 1px 0 rgba(10, 60, 120, 0.35), 0 6px 18px rgba(10, 60, 120, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* Dark taskbar glass: lighter at the top, deeper towards the bottom, a light line along the top edge. */
+  .aero-taskbar {
+    background:
+      var(--aero-streaks),
+      linear-gradient(180deg, rgba(120, 165, 210, 0.6), rgba(30, 62, 105, 0.74) 48%, rgba(12, 30, 60, 0.86));
+    background-attachment: fixed, scroll;
+    -webkit-backdrop-filter: var(--aero-frame-blur);
+    backdrop-filter: var(--aero-frame-blur);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 -1px 0 rgba(0, 20, 50, 0.45), 0 -6px 18px rgba(0, 30, 70, 0.22);
+    color: #fff;
+  }
+
+  /* An Aero window: a frame of tinted glass around a white client area. */
+  .aero-window {
+    background:
+      var(--aero-streaks),
+      linear-gradient(180deg, rgba(200, 228, 252, 0.86), rgba(150, 196, 238, 0.8) 50%, rgba(170, 210, 245, 0.84));
+    background-attachment: fixed, scroll;
+    -webkit-backdrop-filter: var(--aero-frame-blur);
+    backdrop-filter: var(--aero-frame-blur);
+    border: 1px solid rgba(20, 60, 110, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7), 0 10px 36px rgba(4, 30, 70, 0.4);
+    color: var(--aero-text);
+    animation: aero-appear var(--aero-appear) var(--aero-ease) both;
+  }
+  .aero-window__client {
+    background: #fff;
+    border: 1px solid rgba(60, 100, 150, 0.45);
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+  }
+
+  /* The red close button of a Windows 7 caption. */
+  .aero-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 26px;
+    border: 1px solid #6d1a10;
+    border-radius: 0 0 4px 4px;
+    color: #fff;
+    background:
+      var(--aero-gloss),
+      linear-gradient(180deg, #e08a7a, #c42b1c 55%, #a31f12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-close:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 0 10px 2px rgba(255, 120, 90, 0.8);
+    transition-duration: var(--aero-glow-in);
+  }
+
+  /* Gel: the glossy pill. Aqua by default; grass for adding and sending; red for destructive actions. */
+  .aero-gel {
+    --gel-top: #3fa9f5;
+    --gel: var(--aero-aqua-deep);
+    --gel-edge: #07508f;
+    --gel-glow: rgba(90, 200, 255, 0.85);
+    border: 1px solid var(--gel-edge);
+    border-radius: 999px;
+    color: #fff;
+    background: var(--aero-gloss), var(--aero-underglow), linear-gradient(180deg, var(--gel-top), var(--gel));
+    text-shadow: 0 1px 1px rgba(0, 30, 70, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 1px 3px rgba(0, 40, 90, 0.35);
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease), filter var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-gel:hover {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 0 12px 2px var(--gel-glow);
+    filter: brightness(1.06);
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-gel:active {
+    filter: brightness(0.88);
+    box-shadow: inset 0 2px 5px rgba(0, 30, 70, 0.45);
+  }
+  .aero-gel--grass {
+    --gel-top: #6fd43a;
+    --gel: var(--aero-grass-ink);
+    --gel-edge: #1c5c07;
+    --gel-glow: rgba(150, 240, 90, 0.85);
+  }
+  .aero-gel--red {
+    --gel-top: #f07a68;
+    --gel: var(--aero-danger);
+    --gel-edge: #7c170d;
+    --gel-glow: rgba(255, 130, 100, 0.8);
+  }
+
+  /* Windows 7 command button: silver with a hard edge at the middle; hover glows blue; pressed or chosen sinks. */
+  .aero-cmd {
+    border: 1px solid #707070;
+    border-radius: 3px;
+    color: #1b1b1b;
+    background: linear-gradient(180deg, #f2f2f2 0%, #ebebeb 45%, #dddddd 45%, #cfcfcf 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    text-shadow: none;
+    transition: background var(--aero-glow-out) var(--aero-ease), border-color var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-cmd:hover {
+    border-color: #3c7fb1;
+    background: linear-gradient(180deg, #eaf6fd 0%, #d9f0fc 45%, #bee6fd 45%, #a7d9f5 100%);
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-cmd:active,
+  .aero-cmd[aria-pressed='true'],
+  .aero-cmd[data-state='active'] {
+    border-color: #2c628b;
+    background: linear-gradient(180deg, #e5f4fc 0%, #c4e5f6 45%, #98d1ef 45%, #68b3db 100%);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Windows 7 text field. */
+  .aero-field {
+    background: #fff;
+    border: 1px solid #abadb3;
+    border-radius: 2px;
+    color: var(--aero-text);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: border-color var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-field:hover {
+    border-color: #7eb4ea;
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-field:focus,
+  .aero-field:focus-within {
+    border-color: #569de5;
+  }
+  .aero-field::placeholder {
+    color: #6d7a88;
+  }
+
+  /* Explorer rows: a soft blue on hover, a deeper blue for the chosen one. */
+  .aero-hover-row {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    transition: background var(--aero-glow-out) var(--aero-ease), border-color var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-hover-row:hover {
+    background: var(--aero-hover);
+    border-color: var(--aero-hover-edge);
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-hover-row[aria-selected='true'],
+  .aero-hover-row[aria-current='page'],
+  .aero-hover-row[data-state='active'] {
+    background: var(--aero-select);
+    border-color: var(--aero-select-edge);
+  }
+
+  /* A glossy sphere (logo, start button, play button, map pins). */
+  .aero-orb {
+    --orb-light: #c9f0ff;
+    --orb: #4cb4f2;
+    --orb-deep: #0f63b8;
+    --orb-rim: #0a3f7e;
+    --orb-glow: rgba(110, 210, 255, 0.85);
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid rgba(4, 40, 90, 0.65);
+    color: #fff;
+    background: radial-gradient(circle at 50% 30%, var(--orb-light) 0, var(--orb) 34%, var(--orb-deep) 70%, var(--orb-rim) 100%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), inset 0 -5px 9px rgba(140, 230, 255, 0.55),
+      0 2px 6px rgba(4, 40, 90, 0.35);
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-orb::before {
+    content: '';
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    top: 4%;
+    height: 46%;
+    border-radius: 50% 50% 45% 45%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.08));
+    pointer-events: none;
+    z-index: 1;
+  }
+  .aero-orb:hover {
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), inset 0 -5px 9px rgba(140, 230, 255, 0.7),
+      0 0 14px 3px var(--orb-glow);
+    transition-duration: var(--aero-glow-in);
+  }
+  .aero-orb--grass {
+    --orb-light: #e2ffc8;
+    --orb: #6fd43a;
+    --orb-deep: #2a8a0c;
+    --orb-rim: #1a5806;
+    --orb-glow: rgba(150, 240, 90, 0.85);
+    border-color: rgba(20, 70, 5, 0.7);
+  }
+
+  /* Small light tag pill (genres, styles). */
+  .aero-tag {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #9cc6ec;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: #0b4f91;
+    background: linear-gradient(180deg, #f6fbff 0%, #e4f1fc 50%, #d3e8fa 51%, #e2f0fc 100%);
+    box-shadow: inset 0 1px 0 #fff;
+  }
+
+  /* Windows 7 progress bar with a shine that passes every 3 s. */
+  .aero-progress {
+    position: relative;
+    overflow: hidden;
+    height: 14px;
+    border: 1px solid #bcbcbc;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #f3f3f3, #e6e6e6 50%, #dadada 51%, #ededed);
+  }
+  .aero-progress__bar {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #d4f8c4 0%, #7ddc4c 45%, #42b81c 50%, #5fd03a 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    transition: width 0.4s var(--aero-ease);
+  }
+  .aero-progress__bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    left: -40%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+    animation: aero-shine 3s linear infinite;
+  }
+
+  /* Windows 7 busy ring. */
+  .aero-spinner {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 4px solid rgba(10, 108, 194, 0.16);
+    border-top-color: var(--aero-aqua);
+    border-right-color: var(--aero-aqua-deep);
+    box-shadow: 0 0 12px rgba(0, 162, 232, 0.35);
+    animation: aero-spin 1s linear infinite;
+  }
+
+  .aero-heading {
+    color: var(--aero-instruction);
+    font-family: var(--aero-font);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* Dark text with a white halo, like a Vista caption on glass. */
+  .aero-glow-text {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 3px #fff;
+  }
+
+  .aero-link {
+    color: var(--aero-link);
+  }
+  .aero-link:hover {
+    color: var(--aero-link-hover);
+    text-decoration: underline;
+  }
+}
+
+@keyframes aero-bubbles {
+  to {
+    transform: translateY(-900px);
+  }
+}
+@keyframes aero-shine {
+  0% {
+    left: -40%;
+  }
+  60%,
+  100% {
+    left: 100%;
+  }
+}
+@keyframes aero-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes aero-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after,
+  .aero-progress__bar::after {
+    animation: none;
+  }
+  .aero-window {
+    animation: none;
+  }
+  .aero-spinner {
+    animation-duration: 3s;
+  }
+}
+
+/* Without blur, or when the person asked for less transparency, glass turns solid. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .aero-glass {
+    background: var(--aero-glass-solid);
+  }
+  .aero-frame {
+    background: linear-gradient(180deg, #f7fbff, #dcecfb);
+  }
+  .aero-window {
+    background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
+  }
+  .aero-taskbar {
+    background: linear-gradient(180deg, #3d6894, #14294a);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .aero-glass {
+    background: var(--aero-glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .aero-frame {
+    background: linear-gradient(180deg, #f7fbff, #dcecfb);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .aero-window {
+    background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .aero-taskbar {
+    background: linear-gradient(180deg, #3d6894, #14294a);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
