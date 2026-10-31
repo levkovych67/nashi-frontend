@@ -15,23 +15,16 @@ export function SubmitPage() {
         </div>
 
         <Tabs defaultValue="artist" className="w-full">
-          <TabsList className="grid w-full grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 bg-transparent p-0 h-auto mb-10">
+          <TabsList className="mb-10 grid h-auto w-full grid-cols-1 gap-4 bg-transparent p-0 shadow-none backdrop-blur-none md:grid-cols-2 md:gap-6">
             <TabsTrigger 
               value="artist"
-              className="flex flex-col items-center gap-4 p-8 rounded-xl border-2 bg-card
-                         data-[state=active]:border-accent data-[state=active]:bg-accent/5
-                         data-[state=inactive]:border-border
-                         hover:border-accent/50 hover:scale-[1.02]
-                         transition-all duration-300 ease-out
-                         shadow-sm data-[state=active]:shadow-elegant
-                         group cursor-pointer h-auto"
+              className="aero-glass group flex h-auto cursor-pointer flex-col items-center gap-4 whitespace-normal rounded-lg p-8"
             >
-              <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center
-                              group-data-[state=active]:bg-accent/10 transition-colors">
-                <Palette className="w-8 h-8 text-muted-foreground group-data-[state=active]:text-accent transition-colors" />
+              <div className="aero-orb flex h-16 w-16 items-center justify-center">
+                <Palette className="relative z-[2] h-8 w-8" aria-hidden="true" />
               </div>
               <div className="text-center space-y-2">
-                <h3 className="font-heading text-2xl font-bold text-foreground">
+                <h3 className="aero-heading text-2xl">
                   Артист
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -42,20 +35,13 @@ export function SubmitPage() {
 
             <TabsTrigger 
               value="event"
-              className="flex flex-col items-center gap-4 p-8 rounded-xl border-2 bg-card
-                         data-[state=active]:border-accent data-[state=active]:bg-accent/5
-                         data-[state=inactive]:border-border
-                         hover:border-accent/50 hover:scale-[1.02]
-                         transition-all duration-300 ease-out
-                         shadow-sm data-[state=active]:shadow-elegant
-                         group cursor-pointer h-auto"
+              className="aero-glass group flex h-auto cursor-pointer flex-col items-center gap-4 whitespace-normal rounded-lg p-8"
             >
-              <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center
-                              group-data-[state=active]:bg-accent/10 transition-colors">
-                <Calendar className="w-8 h-8 text-muted-foreground group-data-[state=active]:text-accent transition-colors" />
+              <div className="aero-orb aero-orb--grass flex h-16 w-16 items-center justify-center">
+                <Calendar className="relative z-[2] h-8 w-8" aria-hidden="true" />
               </div>
               <div className="text-center space-y-2">
-                <h3 className="font-heading text-2xl font-bold text-foreground">
+                <h3 className="aero-heading text-2xl">
                   Подія
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">

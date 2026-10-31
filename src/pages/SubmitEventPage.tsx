@@ -101,9 +101,9 @@ export function SubmitEventPage() {
                 maxLength: { value: 200, message: 'Максимум 200 символів' }
               })}
               placeholder="Назва події або концерту"
-              className={errors.title ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.title ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.title && <p className="text-sm text-red-500 mt-1">{errors.title.message}</p>}
+            {errors.title && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.title.message}</p>}
           </div>
 
           <div>
@@ -116,9 +116,9 @@ export function SubmitEventPage() {
                 maxLength: { value: 100, message: 'Максимум 100 символів' }
               })}
               placeholder="Хто виступає?"
-              className={errors.artistName ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.artistName ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.artistName && <p className="text-sm text-red-500 mt-1">{errors.artistName.message}</p>}
+            {errors.artistName && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.artistName.message}</p>}
           </div>
 
           <div>
@@ -132,9 +132,9 @@ export function SubmitEventPage() {
               })}
               placeholder="Опишіть подію..."
               rows={6}
-              className={errors.description ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.description ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.description && <p className="text-sm text-red-500 mt-1">{errors.description.message}</p>}
+            {errors.description && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.description.message}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -151,9 +151,9 @@ export function SubmitEventPage() {
                     return eventDate > now || 'Дата і час події мають бути в майбутньому';
                   }
                 })}
-                className={errors.dateTime ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                className={errors.dateTime ? 'border-[var(--aero-danger)]' : ''}
               />
-              {errors.dateTime && <p className="text-sm text-red-500 mt-1">{errors.dateTime.message}</p>}
+              {errors.dateTime && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.dateTime.message}</p>}
             </div>
 
             <div>
@@ -161,11 +161,7 @@ export function SubmitEventPage() {
               <select
                 id="region"
                 {...register('region', { required: 'Оберіть область' })}
-                className={`w-full px-3 py-2.5 bg-background border rounded-soft text-sm hover:border-accent/40 focus:outline-none focus:ring-2 cursor-pointer transition-colors ${
-                  errors.region
-                    ? 'border-red-500 focus:ring-red-500'
-                    : 'border-accent/20 focus:ring-accent focus:border-accent'
-                }`}
+                className={`aero-field w-full min-h-[44px] px-3 py-2.5 text-sm cursor-pointer ${errors.region ? 'border-[var(--aero-danger)]' : ''}`}
               >
                 <option value="">Виберіть область</option>
                 {regions?.map((region) => (
@@ -174,7 +170,7 @@ export function SubmitEventPage() {
                   </option>
                 ))}
               </select>
-              {errors.region && <p className="text-sm text-red-500 mt-1">{errors.region.message}</p>}
+              {errors.region && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.region.message}</p>}
             </div>
           </div>
 
@@ -189,9 +185,9 @@ export function SubmitEventPage() {
                   maxLength: { value: 50, message: 'Максимум 50 символів' }
                 })}
                 placeholder="Київ, Львів, тощо"
-                className={errors.city ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                className={errors.city ? 'border-[var(--aero-danger)]' : ''}
               />
-              {errors.city && <p className="text-sm text-red-500 mt-1">{errors.city.message}</p>}
+              {errors.city && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.city.message}</p>}
             </div>
 
             <div>
@@ -204,9 +200,9 @@ export function SubmitEventPage() {
                   maxLength: { value: 100, message: 'Максимум 100 символів' }
                 })}
                 placeholder="напр. Палац Спорту"
-                className={errors.venue ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                className={errors.venue ? 'border-[var(--aero-danger)]' : ''}
               />
-              {errors.venue && <p className="text-sm text-red-500 mt-1">{errors.venue.message}</p>}
+              {errors.venue && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.venue.message}</p>}
             </div>
           </div>
 
@@ -223,9 +219,9 @@ export function SubmitEventPage() {
                 }
               })}
               placeholder="https://..."
-              className={errors.ticketUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.ticketUrl ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.ticketUrl && <p className="text-sm text-red-500 mt-1">{errors.ticketUrl.message}</p>}
+            {errors.ticketUrl && <p className="text-sm text-[var(--aero-danger)] mt-1">{errors.ticketUrl.message}</p>}
           </div>
         </div>
         </Card>
@@ -239,12 +235,12 @@ export function SubmitEventPage() {
           <div className="mt-2">
             <label className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-card cursor-pointer transition-colors ${
               imageError
-                ? 'border-red-500 hover:border-red-600'
+                ? 'border-[var(--aero-danger)]'
                 : 'border-accent/30 hover:border-accent'
             }`}>
               <div className="text-center">
-                <Upload className={`w-8 h-8 mx-auto mb-2 ${imageError ? 'text-red-500' : 'text-accent'}`} />
-                <p className={`text-sm ${imageError ? 'text-red-500' : 'text-muted-foreground'}`}>
+                <Upload className={`w-8 h-8 mx-auto mb-2 ${imageError ? 'text-[var(--aero-danger)]' : 'text-accent'}`} />
+                <p className={`text-sm ${imageError ? 'text-[var(--aero-danger)]' : 'text-muted-foreground'}`}>
                   Натисніть для завантаження фото
                 </p>
               </div>
@@ -256,15 +252,15 @@ export function SubmitEventPage() {
               />
             </label>
           </div>
-          {imageError && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+          {imageError && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле</p>}
           {image && (
             <div className="mt-2">
-              <div className="flex items-center justify-between text-sm bg-accent/10 px-3 py-2 rounded">
+              <div className="flex items-center justify-between text-sm rounded-[3px] border border-[#b8d6fb] bg-[#ebf3fd] px-3 py-2">
                 <span className="truncate">{image.name}</span>
                 <button
                   type="button"
                   onClick={() => setImage(null)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-[var(--aero-danger)] hover:text-[#8f1d12]"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -275,7 +271,7 @@ export function SubmitEventPage() {
       </Card>
 
       {/* Submit */}
-      <Button type="submit" size="lg" className="w-full" disabled={isPending}>
+      <Button type="submit" variant="grass" size="lg" className="w-full" disabled={isPending}>
         {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
         {isPending ? 'Надсилання...' : 'Надіслати подію'}
       </Button>

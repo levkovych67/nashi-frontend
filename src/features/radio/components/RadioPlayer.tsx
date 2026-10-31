@@ -107,7 +107,7 @@ export function RadioPlayer() {
       {/* Track Info */}
       <div className="flex items-center gap-4 mb-6">
         {currentTrack.coverUrl && (
-          <div className="w-20 h-20 rounded-card overflow-hidden flex-shrink-0">
+          <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-[#9cc6ec] shadow-elegant">
             <img
               src={currentTrack.coverUrl}
               alt={currentTrack.title || ''}
@@ -116,7 +116,7 @@ export function RadioPlayer() {
           </div>
         )}
         <div className="flex-1 min-w-0">
-          <h3 className="font-heading text-xl font-semibold truncate">{currentTrack.title}</h3>
+          <h3 className="aero-heading truncate text-xl">{currentTrack.title}</h3>
           {currentTrack.artistName && (
             <p className="text-sm text-muted-foreground truncate">{currentTrack.artistName}</p>
           )}
@@ -131,7 +131,8 @@ export function RadioPlayer() {
           max={duration || 100}
           value={progress}
           onChange={handleSeek}
-          className="w-full h-2 bg-accent/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent"
+          aria-label="Позиція в треку"
+          className="aero-range w-full"
         />
         <div className="flex justify-between text-xs text-muted-foreground/70 mt-1">
           <span>{formatTime(progress)}</span>
@@ -141,15 +142,25 @@ export function RadioPlayer() {
 
       {/* Controls */}
       <div className="flex items-center justify-center gap-4 mb-4">
-        <Button variant="outline" size="icon" onClick={playPrevious}>
+        <Button variant="outline" size="icon" onClick={playPrevious} aria-label="Попередній трек">
           <SkipBack className="w-5 h-5" />
         </Button>
 
-        <Button size="icon" className="w-14 h-14" onClick={togglePlayPause}>
-          {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
-        </Button>
+        {/* The round glass play button of the era's media players */}
+        <button
+          type="button"
+          onClick={togglePlayPause}
+          aria-label={isPlaying ? 'Пауза' : 'Грати'}
+          className="aero-orb flex h-16 w-16 items-center justify-center"
+        >
+          {isPlaying ? (
+            <Pause className="relative z-[2] h-7 w-7" fill="currentColor" aria-hidden="true" />
+          ) : (
+            <Play className="relative z-[2] ml-1 h-7 w-7" fill="currentColor" aria-hidden="true" />
+          )}
+        </button>
 
-        <Button variant="outline" size="icon" onClick={playNext}>
+        <Button variant="outline" size="icon" onClick={playNext} aria-label="Наступний трек">
           <SkipForward className="w-5 h-5" />
         </Button>
       </div>
@@ -160,6 +171,7 @@ export function RadioPlayer() {
           variant="ghost"
           size="icon"
           onClick={() => setVolume(volume > 0 ? 0 : 0.7)}
+          aria-label={volume > 0 ? 'Вимкнути звук' : 'Увімкнути звук'}
         >
           {volume > 0 ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
         </Button>
@@ -170,7 +182,8 @@ export function RadioPlayer() {
           step="0.01"
           value={volume}
           onChange={(e) => setVolume(parseFloat(e.target.value))}
-          className="flex-1 h-2 bg-accent/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent"
+          aria-label="Гучність"
+          className="aero-range flex-1"
         />
       </div>
     </Card>

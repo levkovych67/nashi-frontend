@@ -66,7 +66,7 @@ export function ArtistsListPage() {
             onChange={(e) => {
               setSelectedRegion((e.target.value || undefined) as Region | undefined);
             }}
-            className="px-3 py-2 bg-background border border-accent/20 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent transition-all"
+            className="aero-field min-h-[44px] px-3 py-2 text-sm"
           >
             <option value="">Усі області</option>
             {regions?.map((region) => (
@@ -82,7 +82,7 @@ export function ArtistsListPage() {
       {isLoading && (
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+            <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">Завантаження артистів...</p>
           </div>
         </div>
@@ -91,7 +91,7 @@ export function ArtistsListPage() {
       {/* Error State */}
       {error && (
         <div className="text-center py-20">
-          <p className="text-red-500 mb-2">Помилка завантаження</p>
+          <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
           <p className="text-sm text-muted-foreground">{error.message}</p>
         </div>
       )}
@@ -120,7 +120,7 @@ export function ArtistsListPage() {
             <div ref={sentinelRef} className="flex justify-center py-12">
               {isFetchingNextPage && (
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent mx-auto mb-3"></div>
+                  <div className="aero-spinner mx-auto mb-3 !h-10 !w-10" aria-hidden="true" />
                   <p className="text-sm text-muted-foreground">Завантаження...</p>
                 </div>
               )}

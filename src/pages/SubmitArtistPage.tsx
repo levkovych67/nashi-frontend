@@ -114,9 +114,9 @@ export function SubmitArtistPage() {
               id="name"
               {...register('name', { required: true, minLength: 2, maxLength: 100 })}
               placeholder="Назва гурту або ім'я виконавця"
-              className={errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.name ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.name && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (2-100 символів)</p>}
+            {errors.name && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле (2-100 символів)</p>}
           </div>
 
           <div>
@@ -125,9 +125,9 @@ export function SubmitArtistPage() {
               id="style"
               {...register('style', { required: true })}
               placeholder="напр. Folk, Rock, Electronic"
-              className={errors.style ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.style ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.style && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+            {errors.style && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -138,9 +138,9 @@ export function SubmitArtistPage() {
                 type="number"
                 {...register('foundationYear', { min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
                 placeholder="напр. 2015"
-                className={errors.foundationYear ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                className={errors.foundationYear ? 'border-[var(--aero-danger)]' : ''}
               />
-              {errors.foundationYear && <p className="text-sm text-red-500 mt-1">Рік має бути від 1900</p>}
+              {errors.foundationYear && <p className="text-sm text-[var(--aero-danger)] mt-1">Рік має бути від 1900</p>}
             </div>
 
             <div>
@@ -150,9 +150,9 @@ export function SubmitArtistPage() {
                 type="number"
                 {...register('disbandYear', { min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
                 placeholder="напр. 2020"
-                className={errors.disbandYear ? 'border-red-500 focus-visible:ring-red-500' : ''}
+                className={errors.disbandYear ? 'border-[var(--aero-danger)]' : ''}
               />
-              {errors.disbandYear && <p className="text-sm text-red-500 mt-1">Рік має бути від 1900</p>}
+              {errors.disbandYear && <p className="text-sm text-[var(--aero-danger)] mt-1">Рік має бути від 1900</p>}
             </div>
           </div>
 
@@ -161,11 +161,7 @@ export function SubmitArtistPage() {
             <select
               id="region"
               {...register('region', { required: true })}
-              className={`w-full px-3 py-2.5 bg-background border rounded-soft text-sm hover:border-accent/40 focus:outline-none focus:ring-2 cursor-pointer transition-colors ${
-                errors.region
-                  ? 'border-red-500 focus:ring-red-500'
-                  : 'border-accent/20 focus:ring-accent focus:border-accent'
-              }`}
+              className={`aero-field w-full min-h-[44px] px-3 py-2.5 text-sm cursor-pointer ${errors.region ? 'border-[var(--aero-danger)]' : ''}`}
             >
               <option value="">Виберіть область</option>
               {regions?.map((region) => (
@@ -174,7 +170,7 @@ export function SubmitArtistPage() {
                 </option>
               ))}
             </select>
-            {errors.region && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+            {errors.region && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле</p>}
           </div>
 
           <CityAutocomplete
@@ -199,9 +195,9 @@ export function SubmitArtistPage() {
               type="email"
               {...register('contactEmail', { required: true })}
               placeholder="contact@example.com"
-              className={errors.contactEmail ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.contactEmail ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.contactEmail && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+            {errors.contactEmail && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле</p>}
           </div>
         </div>
         </Card>
@@ -212,7 +208,7 @@ export function SubmitArtistPage() {
         
         <div className="space-y-4">
           {members.map((member, index) => (
-            <div key={index} className="border border-accent/20 rounded-soft p-4 space-y-3">
+            <div key={index} className="aero-groupbox p-4 space-y-3">
               <div className="flex justify-between items-center">
                 <h3 className="font-medium">Учасник #{index + 1}</h3>
                 <Button
@@ -298,7 +294,7 @@ export function SubmitArtistPage() {
         
         <div className="space-y-4">
           {socialLinks.map((link, index) => (
-            <div key={index} className="border border-accent/20 rounded-soft p-4 space-y-3">
+            <div key={index} className="aero-groupbox p-4 space-y-3">
               <div className="flex justify-between items-center">
                 <h3 className="font-medium">Посилання #{index + 1}</h3>
                 <Button
@@ -373,9 +369,9 @@ export function SubmitArtistPage() {
               {...register('biography', { required: true, maxLength: 5000 })}
               placeholder="Розкажіть про артиста..."
               rows={6}
-              className={errors.biography ? 'border-red-500 focus-visible:ring-red-500' : ''}
+              className={errors.biography ? 'border-[var(--aero-danger)]' : ''}
             />
-            {errors.biography && <p className="text-sm text-red-500 mt-1">Обов'язкове поле (макс 5000 символів)</p>}
+            {errors.biography && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле (макс 5000 символів)</p>}
           </div>
         </div>
         </Card>
@@ -391,12 +387,12 @@ export function SubmitArtistPage() {
             <div className="mt-2">
               <label className={`flex items-center justify-center w-full px-4 py-6 border-2 border-dashed rounded-card cursor-pointer transition-colors ${
                 imagesError
-                  ? 'border-red-500 hover:border-red-600'
+                  ? 'border-[var(--aero-danger)]'
                   : 'border-accent/30 hover:border-accent'
               }`}>
                 <div className="text-center">
-                  <Upload className={`w-8 h-8 mx-auto mb-2 ${imagesError ? 'text-red-500' : 'text-accent'}`} />
-                  <p className={`text-sm ${imagesError ? 'text-red-500' : 'text-muted-foreground'}`}>
+                  <Upload className={`w-8 h-8 mx-auto mb-2 ${imagesError ? 'text-[var(--aero-danger)]' : 'text-accent'}`} />
+                  <p className={`text-sm ${imagesError ? 'text-[var(--aero-danger)]' : 'text-muted-foreground'}`}>
                     Натисніть для завантаження фото
                   </p>
                 </div>
@@ -409,16 +405,16 @@ export function SubmitArtistPage() {
                 />
               </label>
             </div>
-            {imagesError && <p className="text-sm text-red-500 mt-1">Обов'язкове поле</p>}
+            {imagesError && <p className="text-sm text-[var(--aero-danger)] mt-1">Обов'язкове поле</p>}
             {images.length > 0 && (
               <div className="mt-2 space-y-1">
                 {images.map((file, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-sm bg-accent/10 px-3 py-2 rounded">
+                  <div key={idx} className="flex items-center justify-between text-sm rounded-[3px] border border-[#b8d6fb] bg-[#ebf3fd] px-3 py-2">
                     <span className="truncate">{file.name}</span>
                     <button
                       type="button"
                       onClick={() => setImages(images.filter((_, i) => i !== idx))}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-[var(--aero-danger)] hover:text-[#8f1d12]"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -449,12 +445,12 @@ export function SubmitArtistPage() {
             {demoTracks.length > 0 && (
               <div className="mt-2 space-y-1">
                 {demoTracks.map((file, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-sm bg-accent/10 px-3 py-2 rounded">
+                  <div key={idx} className="flex items-center justify-between text-sm rounded-[3px] border border-[#b8d6fb] bg-[#ebf3fd] px-3 py-2">
                     <span className="truncate">{file.name}</span>
                     <button
                       type="button"
                       onClick={() => setDemoTracks(demoTracks.filter((_, i) => i !== idx))}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-[var(--aero-danger)] hover:text-[#8f1d12]"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -468,13 +464,13 @@ export function SubmitArtistPage() {
 
         {/* Error Message */}
       {submitError && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-card">
-          <p className="text-sm text-red-600">{submitError}</p>
+        <div className="aero-glass border-l-4 border-l-[var(--aero-danger)] p-4" role="alert">
+          <p className="text-sm text-[var(--aero-danger)]">{submitError}</p>
         </div>
       )}
 
       {/* Submit */}
-      <Button type="submit" size="lg" className="w-full" disabled={isPending}>
+      <Button type="submit" variant="grass" size="lg" className="w-full" disabled={isPending}>
         {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
         {isPending ? 'Надсилання...' : 'Надіслати заявку'}
       </Button>

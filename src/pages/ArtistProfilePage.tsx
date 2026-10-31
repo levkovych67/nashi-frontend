@@ -15,7 +15,7 @@ export function ArtistProfilePage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+          <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
           <p className="text-sm text-muted-foreground">Завантаження...</p>
         </div>
       </div>
@@ -79,7 +79,7 @@ export function ArtistProfilePage() {
 
       <div className="container mx-auto px-4 -mt-20 relative z-10">
         {/* Main Content */}
-        <div className="bg-background/80 backdrop-blur-md rounded-card border border-accent/20 p-6 md:p-8 shadow-xl">
+        <div className="aero-glass p-6 md:p-8">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">{artist.name}</h1>
@@ -111,7 +111,7 @@ export function ArtistProfilePage() {
                 {artist.musicTags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-secondary text-secondary-foreground font-medium text-xs rounded-full"
+                    className="aero-tag"
                   >
                     {tag}
                   </span>
@@ -177,7 +177,7 @@ export function ArtistProfilePage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {artist.members.map((member, idx) => (
-                  <div key={idx} className="border border-accent/20 rounded-soft p-4">
+                  <div key={idx} className="aero-groupbox p-4">
                     <p className="font-medium">
                       {member.firstName} {member.lastName}
                     </p>

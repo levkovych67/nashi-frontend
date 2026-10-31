@@ -15,7 +15,7 @@ export function ArtistCard({ artist }: ArtistCardProps) {
 
   return (
     <Link to={`/artists/${artist.slug}`}>
-      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
+      <Card className="aero-lift group cursor-pointer overflow-hidden">
         {/* Image */}
         {mainImage ? (
           <OptimizedImage

@@ -20,12 +20,11 @@ export function Playlist() {
           <button
             key={track.id || index}
             onClick={() => setCurrentTrackIndex(index)}
-            className={`w-full flex items-center gap-3 p-3 rounded-soft transition-colors hover:bg-accent/10 ${
-              index === currentTrackIndex ? 'bg-accent/20' : ''
-            }`}
+            data-state={index === currentTrackIndex ? 'active' : undefined}
+            className="aero-hover-row flex w-full items-center gap-3 p-3 text-left"
           >
             {/* Cover Image */}
-            <div className="w-12 h-12 rounded-soft overflow-hidden flex-shrink-0 bg-accent/10 relative group">
+            <div className="group relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-[3px] border border-[#9cc6ec] bg-[#e4f1fc]">
               {track.coverUrl ? (
                 <img
                   src={track.coverUrl}

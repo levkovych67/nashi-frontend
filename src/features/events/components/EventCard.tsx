@@ -17,7 +17,7 @@ export function EventCard({ event, onViewDetails }: EventCardProps) {
   const eventDate = event.dateTime ? new Date(event.dateTime) : null;
 
   return (
-    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300">
+    <Card className="aero-lift group overflow-hidden">
       {/* Event Image */}
       {event.eventImageKey && (
         <OptimizedImage

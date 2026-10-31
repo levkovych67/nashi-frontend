@@ -125,7 +125,7 @@ export function AboutPage() {
           </Card>
 
           {/* CTA */}
-          <Card className="p-8 bg-gradient-to-br from-accent/10 to-accent/5 border-accent/30">
+          <Card className="p-8">
             <div className="text-center">
               <h2 className="text-3xl font-heading font-bold mb-4">Станьте частиною спільноти</h2>
               <p className="text-lg text-foreground/90 mb-6">
@@ -134,7 +134,7 @@ export function AboutPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="/submit">
-                  <Button size="lg" variant="default">
+                  <Button size="lg" variant="grass">
                     Додати артиста або подію
                   </Button>
                 </a>

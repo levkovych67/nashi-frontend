@@ -16,7 +16,7 @@ export function NewsCard({ post }: NewsCardProps) {
   const createdDate = post.createdAt ? new Date(post.createdAt) : null;
 
   return (
-    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300">
+    <Card className="aero-lift group overflow-hidden">
       {/* Image */}
       {post.imageUrl && (
         <OptimizedImage

@@ -452,6 +452,70 @@
     transition-duration: var(--aero-glow-in);
   }
 
+  /* Cards glow blue when pointed at instead of growing a darker shadow. */
+  .aero-lift {
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-lift:hover,
+  .aero-lift:focus-within {
+    box-shadow: 0 0 0 1px rgba(60, 140, 220, 0.6), 0 0 18px 3px rgba(110, 210, 255, 0.55), 0 8px 26px rgba(8, 54, 112, 0.2),
+      inset 0 1px 0 #fff;
+    transition-duration: var(--aero-glow-in);
+  }
+
+  /* A Windows 7 group box around a part of a form. */
+  .aero-groupbox {
+    border: 1px solid #c4d7ed;
+    border-radius: 3px;
+    background: rgba(245, 250, 255, 0.85);
+    box-shadow: inset 0 1px 0 #fff;
+  }
+
+  /* Windows 7 slider: a sunken track and a glossy blue thumb that glows when pointed at. */
+  .aero-range {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 24px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .aero-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border: 1px solid #8aa9c8;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #dfe9f5, #f7fbff);
+    box-shadow: inset 0 1px 2px rgba(0, 30, 70, 0.2);
+  }
+  .aero-range::-moz-range-track {
+    height: 6px;
+    border: 1px solid #8aa9c8;
+    border-radius: 3px;
+    background: linear-gradient(180deg, #dfe9f5, #f7fbff);
+  }
+  .aero-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin-top: -7px;
+    border: 1px solid #07508f;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #c9f0ff 0, #4cb4f2 40%, #0a6cc2 80%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 40, 90, 0.4);
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #07508f;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #c9f0ff 0, #4cb4f2 40%, #0a6cc2 80%);
+  }
+  .aero-range:hover::-webkit-slider-thumb,
+  .aero-range:focus-visible::-webkit-slider-thumb {
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 0 8px 2px rgba(110, 210, 255, 0.85);
+    transition-duration: var(--aero-glow-in);
+  }
+
   .aero-heading {
     color: var(--aero-instruction);
     font-family: var(--aero-font);

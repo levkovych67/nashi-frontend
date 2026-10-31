@@ -38,7 +38,7 @@ export function NewsPage() {
         {/* Platform Stats */}
         {stats && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <Card className="p-4 border border-accent/20">
+            <Card className="p-4">
               <div className="flex items-center gap-3">
                 <Users className="w-8 h-8 text-accent" />
                 <div>
@@ -48,9 +48,9 @@ export function NewsPage() {
               </div>
             </Card>
 
-            <Card className="p-4 border border-accent/20">
+            <Card className="p-4">
               <div className="flex items-center gap-3">
-                <CheckCircle className="w-8 h-8 text-green-500" />
+                <CheckCircle className="w-8 h-8 text-[var(--aero-grass-deep)]" />
                 <div>
                   <p className="text-2xl font-heading font-bold">{stats.approvedArtists}</p>
                   <p className="text-sm text-muted-foreground">Схвалено</p>
@@ -58,9 +58,9 @@ export function NewsPage() {
               </div>
             </Card>
 
-            <Card className="p-4 border border-accent/20">
+            <Card className="p-4">
               <div className="flex items-center gap-3">
-                <Clock className="w-8 h-8 text-orange-500" />
+                <Clock className="w-8 h-8 text-[#d9822b]" />
                 <div>
                   <p className="text-2xl font-heading font-bold">{stats.pendingArtists}</p>
                   <p className="text-sm text-muted-foreground">На розгляді</p>
@@ -75,7 +75,7 @@ export function NewsPage() {
       {isLoading && page === 0 && (
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+            <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">Завантаження новин...</p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export function NewsPage() {
       {/* Error State */}
       {error && (
         <div className="text-center py-20">
-          <p className="text-red-500 mb-2">Помилка завантаження</p>
+          <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
           <p className="text-sm text-muted-foreground">{error.message}</p>
         </div>
       )}

@@ -59,7 +59,7 @@ export function RadioPage() {
             id="region-select"
             value={selectedRegion || ''}
             onChange={(e) => setSelectedRegion((e.target.value || undefined) as Region | undefined)}
-            className="w-full px-4 py-3 bg-background border border-accent/20 rounded-card text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+            className="aero-field w-full min-h-[44px] px-4 py-3 text-sm"
           >
             <option value="">Уся Україна</option>
             {regions?.map((region) => (
@@ -74,7 +74,7 @@ export function RadioPage() {
         {isLoading && (
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+              <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
               <p className="text-sm text-muted-foreground">Завантаження треків...</p>
             </div>
           </div>
@@ -83,7 +83,7 @@ export function RadioPage() {
         {/* Error State */}
         {error && (
           <div className="text-center py-20">
-            <p className="text-red-500 mb-2">Помилка завантаження</p>
+            <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
             <p className="text-sm text-muted-foreground">{error.message}</p>
           </div>
         )}

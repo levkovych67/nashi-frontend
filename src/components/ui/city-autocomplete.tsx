@@ -66,7 +66,7 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
           onBlur={() => setTimeout(() => setIsOpen(false), 200)} // Delay to allow click on dropdown
           placeholder={region ? "Почніть вводити назву..." : "Спочатку виберіть область"}
           disabled={!region}
-          className={`${isDebouncing ? 'pr-10' : ''} ${error ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+          className={`${isDebouncing ? 'pr-10' : ''} ${error ? 'border-[var(--aero-danger)]' : ''}`}
         />
         
         {/* Typing indicator (while debouncing) */}
@@ -84,11 +84,11 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
         )}
       </div>
       
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className="mt-1 text-sm text-[var(--aero-danger)]">{error}</p>}
       
       {/* Minimum character hint */}
       {showMinCharHint && (
-        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-elegant px-4 py-3">
+        <div className="absolute z-50 mt-1 w-full rounded-[3px] border border-[#979797] bg-white shadow-elegant-lg px-4 py-3">
           <p className="text-sm text-muted-foreground">
             Введіть мінімум {MIN_QUERY_LENGTH} символи для пошуку
             <span className="text-accent ml-1">
@@ -100,7 +100,7 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
       
       {/* Loading state */}
       {showLoading && (
-        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-elegant px-4 py-3">
+        <div className="absolute z-50 mt-1 w-full rounded-[3px] border border-[#979797] bg-white shadow-elegant-lg px-4 py-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Loader2 className="w-4 h-4 animate-spin" />
             <span>Завантаження міст...</span>
@@ -110,13 +110,13 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
       
       {/* Results dropdown */}
       {showResults && (
-        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-elegant max-h-60 overflow-y-auto">
+        <div className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto rounded-[3px] border border-[#979797] bg-white p-1 shadow-elegant-lg">
           {cities.map((city, idx) => (
             <button
               key={idx}
               type="button"
               onMouseDown={() => handleSelect(city)} // Use onMouseDown to prevent blur
-              className="w-full text-left px-4 py-2.5 hover:bg-secondary transition-colors text-sm first:rounded-t-lg last:rounded-b-lg"
+              className="aero-hover-row w-full px-4 py-2.5 text-left text-sm"
             >
               <div className="font-medium text-foreground">{city.name}</div>
               <div className="text-xs text-muted-foreground mt-0.5">{city.regionUA}</div>
@@ -127,7 +127,7 @@ export function CityAutocomplete({ region, onCitySelect, value, error }: CityAut
       
       {/* No results */}
       {showNoResults && (
-        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-elegant px-4 py-3">
+        <div className="absolute z-50 mt-1 w-full rounded-[3px] border border-[#979797] bg-white shadow-elegant-lg px-4 py-3">
           <p className="text-sm text-muted-foreground">
             Нічого не знайдено для "{debouncedQuery}"
           </p>
