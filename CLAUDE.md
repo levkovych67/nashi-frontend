@@ -20,6 +20,7 @@ npm run preview          # Preview production build locally
 npm run lint             # Run ESLint on all files
 npm run format           # Format code with Prettier (src/**/*.{ts,tsx})
 npm run type-check       # Run TypeScript compiler without emitting files
+npm test                 # node:test — Aero token contrast, map palette, current-page helper
 ```
 
 ### API Types Generation
@@ -43,7 +44,6 @@ Configuration is centralized in `src/lib/config.ts` which reads from Vite's `imp
 **Zustand stores** (global state):
 - `useMapStore` - Map filters (region, style, tags, types)
 - `useRadioStore` - Radio player state (playlist, current track, play/pause, volume)
-- `useThemeStore` - Theme preference (light/dark mode)
 
 **TanStack Query** (server state):
 - All API data fetching uses TanStack Query hooks
@@ -83,7 +83,7 @@ Configuration is centralized in `src/lib/config.ts` which reads from Vite's `imp
 
 **MapLibre GL integration** (`src/features/map/components/MapContainer.tsx`):
 - Uses `react-map-gl/maplibre` wrapper around MapLibre GL
-- Map styles from MapTiler API (dataviz-dark/light) with Ukrainian language (`&language=uk`)
+- Map style: MapTiler `dataviz-light`, recoloured into the Aero palette and switched to Ukrainian labels by `src/features/map/utils/aeroMapStyle.ts` as soon as the style loads
 - Constrained to Ukraine bounds with minZoom 5.5, maxZoom 18
 - Initial view centered on Ukraine (48.3794°N, 31.1656°E, zoom 6)
 
@@ -125,7 +125,7 @@ TypeScript path alias configured:
 
 **Styling**:
 - Tailwind CSS via `src/styles/globals.css`
-- CSS custom properties for theming (light/dark mode)
+- Frutiger Aero design system, one light look (see `DESIGN_SYSTEM.md`): tokens and materials in `src/styles/aero.css`, shadcn variables mapped onto them in `src/styles/globals.css`
 - shadcn/ui components styled with `class-variance-authority` and `tailwind-merge`
 
 **Type safety**:
@@ -173,7 +173,7 @@ TypeScript path alias configured:
 
 1. **API hooks must use generated types**: Import from `@/lib/api/generated/types` - do not manually type API responses
 2. **FormData submissions**: Use `apiClient.postFormData()` for file uploads, not `post()` - client handles Content-Type automatically
-3. **Map language**: MapTiler styles must include `&language=uk` query param for Ukrainian labels
+3. **Map language**: MapTiler styles label in English (`name:en`); `applyUkrainianLabels` switches them to `name:uk` — the `&language=uk` URL param alone does not
 4. **Query keys**: Follow `['resource', 'action', params]` pattern for proper cache invalidation
 5. **Component organization**: Feature-specific components go in `src/features/[feature]/components/`, shared UI in `src/components/ui/`
 6. **SEO on pages**: Every page component should include `<SEO>` component at the top with page-specific metadata and structured data

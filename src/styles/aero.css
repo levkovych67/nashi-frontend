@@ -563,54 +563,58 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body::after,
-  .aero-progress__bar::after {
-    animation: none;
+/* Accessibility fallbacks sit in the components layer so they come after the base and component rules they override
+   (this file is imported before @tailwind base, so unlayered rules here would lose on source order). */
+@layer components {
+  @media (prefers-reduced-motion: reduce) {
+    body::after,
+    .aero-progress__bar::after {
+      animation: none;
+    }
+    .aero-window {
+      animation: none;
+    }
+    .aero-spinner {
+      animation-duration: 3s;
+    }
   }
-  .aero-window {
-    animation: none;
-  }
-  .aero-spinner {
-    animation-duration: 3s;
-  }
-}
 
-/* Without blur, or when the person asked for less transparency, glass turns solid. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .aero-glass {
-    background: var(--aero-glass-solid);
+  /* Without blur, or when the person asked for less transparency, glass turns solid. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .aero-glass {
+      background: var(--aero-glass-solid);
+    }
+    .aero-frame {
+      background: linear-gradient(180deg, #f7fbff, #dcecfb);
+    }
+    .aero-window {
+      background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
+    }
+    .aero-taskbar {
+      background: linear-gradient(180deg, #3d6894, #14294a);
+    }
   }
-  .aero-frame {
-    background: linear-gradient(180deg, #f7fbff, #dcecfb);
-  }
-  .aero-window {
-    background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
-  }
-  .aero-taskbar {
-    background: linear-gradient(180deg, #3d6894, #14294a);
-  }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .aero-glass {
-    background: var(--aero-glass-solid);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .aero-frame {
-    background: linear-gradient(180deg, #f7fbff, #dcecfb);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .aero-window {
-    background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .aero-taskbar {
-    background: linear-gradient(180deg, #3d6894, #14294a);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
+  @media (prefers-reduced-transparency: reduce) {
+    .aero-glass {
+      background: var(--aero-glass-solid);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    .aero-frame {
+      background: linear-gradient(180deg, #f7fbff, #dcecfb);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    .aero-window {
+      background: linear-gradient(180deg, #d6e9fb, #b3d2f1);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    .aero-taskbar {
+      background: linear-gradient(180deg, #3d6894, #14294a);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
 }
 
