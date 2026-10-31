@@ -57,9 +57,9 @@ export function MapPage() {
 
         {/* Loading state */}
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-20">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+          <div className="absolute inset-0 z-20 flex items-center justify-center" role="status">
+            <div className="aero-glass px-8 py-6 text-center">
+              <div className="aero-spinner mx-auto mb-3" aria-hidden="true" />
               <p className="text-sm text-muted-foreground">Завантаження карти...</p>
             </div>
           </div>
@@ -67,9 +67,9 @@ export function MapPage() {
 
         {/* Error state */}
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background z-20">
-            <div className="text-center p-6">
-              <p className="text-red-500 mb-2">Помилка завантаження даних</p>
+          <div className="absolute inset-0 z-20 flex items-center justify-center p-4" role="alert">
+            <div className="aero-glass max-w-md p-6 text-center">
+              <p className="mb-2 font-semibold text-[var(--aero-danger)]">Помилка завантаження даних</p>
               <p className="text-sm text-muted-foreground">{error.message}</p>
             </div>
           </div>

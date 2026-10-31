@@ -412,6 +412,46 @@
     animation: aero-spin 1s linear infinite;
   }
 
+  /* A map pin: a glass ring around the artist's photo, a gloss cap on top, a glow when pointed at. */
+  .aero-pin {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(180deg, #ffffff, #bfe3fb 55%, #4fa3e8);
+    box-shadow: 0 0 0 1px rgba(10, 60, 120, 0.55), 0 3px 8px rgba(4, 40, 90, 0.4);
+    transition: box-shadow var(--aero-glow-out) var(--aero-ease);
+  }
+  .aero-pin::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 48%);
+    pointer-events: none;
+  }
+  .aero-pin__face {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #e8f7ff, #9ad4f7);
+    color: var(--aero-instruction);
+  }
+  .aero-pin__face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  :is(button:hover, button:focus-visible) > .aero-pin,
+  :is(button:hover, button:focus-visible) > .aero-orb {
+    box-shadow: 0 0 0 1px rgba(10, 60, 120, 0.55), 0 0 14px 4px rgba(110, 210, 255, 0.9);
+    transition-duration: var(--aero-glow-in);
+  }
+
   .aero-heading {
     color: var(--aero-instruction);
     font-family: var(--aero-font);
@@ -508,4 +548,30 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+}
+
+/* MapLibre's zoom buttons as Windows 7 command buttons on glass. MapLibre's own CSS loads later, hence the extra class. */
+.maplibregl-map .maplibregl-ctrl-group:not(:empty) {
+  overflow: hidden;
+  border: 1px solid #707070;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(8, 54, 112, 0.25);
+  background: transparent;
+}
+.maplibregl-map .maplibregl-ctrl-group button {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(180deg, #f2f2f2 0%, #ebebeb 45%, #dddddd 45%, #cfcfcf 100%);
+  transition: background var(--aero-glow-out) var(--aero-ease);
+}
+.maplibregl-map .maplibregl-ctrl-group button + button {
+  border-top: 1px solid #a0a0a0;
+}
+.maplibregl-map .maplibregl-ctrl-group button:not(:disabled):hover {
+  background: linear-gradient(180deg, #eaf6fd 0%, #d9f0fc 45%, #bee6fd 45%, #a7d9f5 100%);
+  transition-duration: var(--aero-glow-in);
+}
+.maplibregl-map .maplibregl-ctrl-attrib {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--aero-text-2);
 }

@@ -28,54 +28,37 @@ export function PinPreviewDrawer({ pin, isOpen, onClose }: PinPreviewDrawerProps
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent 
         side="bottom" 
-        className="h-[85vh] max-h-[85vh] md:h-auto md:max-h-[90vh] overflow-y-auto rounded-t-3xl md:rounded-t-xl"
+        className="max-h-[85vh] md:bottom-6 md:left-auto md:right-6 md:max-h-[80vh] md:w-[420px] md:rounded-lg"
       >
-        {/* Mobile drag handle indicator */}
-        <div className="flex justify-center mb-2 md:hidden">
-          <div className="w-12 h-1 bg-muted-foreground/30 rounded-full" />
-        </div>
-        
+
         <SheetHeader>
-          <SheetTitle className="font-heading text-2xl md:text-3xl">{pin.name}</SheetTitle>
+          <SheetTitle className="pr-6 text-2xl md:text-[26px]">{pin.name}</SheetTitle>
           <SheetDescription className="sr-only">
             {pin.type === 'ARTIST' ? 'Інформація про артиста' : 'Інформація про подію'}
           </SheetDescription>
         </SheetHeader>
 
-        <div className="mt-6 space-y-4 pb-safe">
+        <div className="space-y-4">
           {/* Avatar/Image */}
           {pin.avatarUrl && (
             <OptimizedImage
               src={pin.avatarUrl}
               alt={pin.name || ''}
-              containerClassName="w-full h-48 rounded-card"
+              containerClassName="w-full h-48 rounded-md border border-[#9cc6ec] shadow-elegant"
             />
           )}
 
           {/* Info */}
-          <div className="space-y-2">
-            {pin.style && (
-              <div>
-                <span className="text-sm text-muted-foreground">Стиль:</span>{' '}
-                <span className="font-medium">{pin.style}</span>
-              </div>
-            )}
-
-            {pin.type && (
-              <div>
-                <span className="text-sm text-muted-foreground">Тип:</span>{' '}
-                <span className="font-medium">
-                  {pin.type === 'ARTIST' ? 'Артист' : 'Подія'}
-                </span>
-              </div>
-            )}
+          <div className="flex flex-wrap items-center gap-2">
+            {pin.type && <span className="aero-tag">{pin.type === 'ARTIST' ? 'Артист' : 'Подія'}</span>}
+            {pin.style && <span className="aero-tag">{pin.style}</span>}
           </div>
 
           {/* Audio preview */}
           {pin.audioUrl && (
             <div>
               <p className="text-sm text-muted-foreground mb-2">Слухати:</p>
-              <audio controls className="w-full">
+              <audio controls className="w-full rounded-full">
                 <source src={pin.audioUrl} type="audio/mpeg" />
                 Ваш браузер не підтримує аудіо елемент.
               </audio>

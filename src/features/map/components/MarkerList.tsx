@@ -56,8 +56,7 @@ export function MarkerList({
         className={`
           absolute left-1/2 -translate-x-1/2 bottom-full mb-4
           w-[280px] max-h-[320px]
-          bg-card border border-border rounded-xl shadow-elegant-lg
-          backdrop-blur-sm
+          aero-glass
           overflow-hidden
           transition-all duration-300
           ${
@@ -91,7 +90,7 @@ export function MarkerList({
           style={{
             borderLeft: '8px solid transparent',
             borderRight: '8px solid transparent',
-            borderTop: '8px solid hsl(var(--border))',
+            borderTop: '8px solid rgba(255, 255, 255, 0.92)',
           }}
         />
       </div>
@@ -103,15 +102,12 @@ export function MarkerList({
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <SheetContent side="bottom" className="max-h-[80vh]">
         <SheetHeader>
-          <SheetTitle className="font-heading text-lg">
-            {pins.length} {pins.length === 1 ? 'Location' : 'Locations'} at this
-            spot
-          </SheetTitle>
+          <SheetTitle className="text-lg">У цій точці: {pins.length}</SheetTitle>
           <SheetDescription className="sr-only">
             Список локацій на карті
           </SheetDescription>
         </SheetHeader>
-        <div className="mt-4 space-y-1 overflow-y-auto max-h-[60vh]">
+        <div className="space-y-1">
           {pins.map((pin, index) => (
             <MarkerListItem
               key={pin.id}

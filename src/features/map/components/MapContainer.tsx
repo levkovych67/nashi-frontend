@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
-import Map, { Marker, NavigationControl } from 'react-map-gl/maplibre';
+import { useCallback, useRef, useState, useEffect } from 'react';
+import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { config } from '@/lib/config';
 import type { components } from '@/lib/api/generated/types';
 import { groupPinsByLocation } from '@/lib/utils/groupPinsByLocation';
 import { StackMarker } from './StackMarker';
 import { getRegionBounds } from '../utils/ukraineRegions';
+import { applyAeroMapPalette, applyUkrainianLabels, onStyleReady } from '../utils/aeroMapStyle';
 
 type MapPinDTO = components['schemas']['MapPinDTO'];
 
@@ -32,16 +33,31 @@ const UKRAINE_BOUNDS = {
 };
 
 export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerProps) {
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<MapRef | null>(null);
+  // The map instance arrives after the first commit, so it is held in state and the effects below wait for it.
+  const [mapInstance, setMapInstance] = useState<ReturnType<MapRef['getMap']> | null>(null);
+  const setMapRef = useCallback((ref: MapRef | null) => {
+    mapRef.current = ref;
+    setMapInstance(ref ? ref.getMap() : null);
+  }, []);
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
   const [isMobile, setIsMobile] = useState(false);
   const [hoveredGroupKey, setHoveredGroupKey] = useState<string | null>(null);
   const [isMapReady, setIsMapReady] = useState(false);
 
-  // Handle map load callback
   const handleMapLoad = () => {
     setIsMapReady(true);
   };
+
+  // Paint the style in the Aero palette and switch its labels to Ukrainian as soon as the style is parsed,
+  // before the tiles arrive, so the grey English base map never shows.
+  useEffect(() => {
+    if (!mapInstance) return;
+    return onStyleReady(mapInstance, () => {
+      applyAeroMapPalette(mapInstance);
+      applyUkrainianLabels(mapInstance);
+    });
+  }, [mapInstance]);
 
   // Zoom to region when selected (only when map is ready)
   useEffect(() => {
@@ -76,52 +92,11 @@ export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerP
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Change map language to Ukrainian
-  useEffect(() => {
-    const map = mapRef.current?.getMap();
-    if (!map) return;
-
-    const handleLoad = () => {
-      // Check if map has setLanguage method (MapTiler SDK feature)
-      if (typeof (map as any).setLanguage === 'function') {
-        try {
-          (map as any).setLanguage('name:uk');
-        } catch (error) {
-          console.warn('setLanguage failed:', error);
-        }
-      } else {
-        // Fallback: manually update text-field properties
-        const style = map.getStyle();
-        if (!style || !style.layers) return;
-
-        style.layers.forEach((layer: any) => {
-          if (layer.type === 'symbol' && layer.layout && layer.layout['text-field']) {
-            try {
-              map.setLayoutProperty(layer.id, 'text-field', ['get', 'name:uk']);
-            } catch (error) {
-              // Silently continue if property doesn't exist
-            }
-          }
-        });
-      }
-    };
-
-    if (map.loaded()) {
-      handleLoad();
-    } else {
-      map.on('load', handleLoad);
-    }
-
-    return () => {
-      map.off('load', handleLoad);
-    };
-  }, []);
-
   // Group pins by location to handle overlapping markers
   const pinGroups = groupPinsByLocation(pins);
 
-  // Map style based on theme with Ukrainian language
-  const mapStyle = `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}&language=uk`;
+  // One light style; aeroMapStyle.ts recolours it and switches its labels to Ukrainian.
+  const mapStyle = `https://api.maptiler.com/maps/dataviz-light/style.json?key=${config.mapTilerApiKey}`;
 
   return (
     <div className="w-full h-full">
@@ -131,7 +106,7 @@ export function MapContainer({ pins, onPinClick, selectedRegion }: MapContainerP
         onLoad={handleMapLoad}
         mapStyle={mapStyle}
         style={{ width: '100%', height: '100%' }}
-        ref={mapRef}
+        ref={setMapRef}
         maxBounds={[
           [UKRAINE_BOUNDS.minLng, UKRAINE_BOUNDS.minLat], // Southwest
           [UKRAINE_BOUNDS.maxLng, UKRAINE_BOUNDS.maxLat], // Northeast

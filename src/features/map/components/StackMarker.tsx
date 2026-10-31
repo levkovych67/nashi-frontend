@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CalendarDays } from 'lucide-react';
 import type { components } from '@/lib/api/generated/types';
 import { MarkerList } from './MarkerList';
 
@@ -14,15 +15,6 @@ interface StackMarkerProps {
 export function StackMarker({ pins, onPinClick, isMobile, onHoverChange }: StackMarkerProps) {
   const [isListOpen, setIsListOpen] = useState(false);
 
-  const handleMouseEnter = () => {
-    onHoverChange?.(true);
-  };
-
-  const handleMouseLeave = () => {
-    onHoverChange?.(false);
-  };
-
-  // Get the first pin for display (or could be a priority logic)
   const displayPin = pins[0];
   const stackCount = pins.length;
   const isStack = stackCount > 1;
@@ -30,70 +22,54 @@ export function StackMarker({ pins, onPinClick, isMobile, onHoverChange }: Stack
   const handleMarkerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isStack) {
-      // Toggle list for stacked markers
       setIsListOpen(!isListOpen);
     } else {
-      // Single pin: direct click
       onPinClick(displayPin);
     }
   };
 
+  const label = isStack
+    ? `${displayPin.name} та ще ${stackCount - 1} — показати всіх у цій точці`
+    : `${displayPin.type === 'EVENT' ? 'Подія' : 'Артист'}: ${displayPin.name}`;
+
   return (
-    <div 
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Main Marker */}
-      <div
-        className={`
-          cursor-pointer transform transition-all duration-200
-          ${isListOpen ? 'scale-110' : 'hover:scale-105'}
-        `}
+    <div className="relative" onMouseEnter={() => onHoverChange?.(true)} onMouseLeave={() => onHoverChange?.(false)}>
+      {/* Main marker: a glass orb */}
+      <button
+        type="button"
         onClick={handleMarkerClick}
-        style={{
-          // Stacked shadow effect for depth
-          filter: isStack
-            ? 'drop-shadow(0 2px 3px rgba(0,0,0,0.15)) drop-shadow(0 4px 6px rgba(0,0,0,0.1))'
-            : 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
-        }}
+        aria-label={label}
+        aria-expanded={isStack ? isListOpen : undefined}
+        className={`relative block rounded-full transition-transform duration-200 ${isListOpen ? 'scale-110' : ''}`}
       >
         {displayPin.type === 'ARTIST' ? (
-          <div className="w-10 h-10 rounded-full border-2 border-accent shadow-lg overflow-hidden bg-white">
-            {displayPin.avatarUrl ? (
-              <img
-                src={displayPin.avatarUrl}
-                alt={displayPin.name || ''}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-accent/20 text-accent font-heading text-sm">
-                {displayPin.name?.charAt(0) || '?'}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-white shadow-lg flex items-center justify-center">
-            <span className="text-white text-xs">🎭</span>
-          </div>
-        )}
-
-        {/* Stack Badge */}
-        {isStack && (
-          <div
-            className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-accent text-accent-foreground border-2 border-background flex items-center justify-center shadow-md animate-in zoom-in-50 duration-300"
-            style={{
-              animation: 'stackBadgePop 400ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-          >
-            <span className="text-[10px] font-bold leading-none">
-              {stackCount}
+          <span className="aero-pin h-11 w-11">
+            <span className="aero-pin__face font-semibold">
+              {displayPin.avatarUrl ? (
+                <img src={displayPin.avatarUrl} alt="" />
+              ) : (
+                <span aria-hidden="true">{displayPin.name?.charAt(0) || '?'}</span>
+              )}
             </span>
-          </div>
+          </span>
+        ) : (
+          <span className="aero-orb aero-orb--grass flex h-9 w-9 items-center justify-center">
+            <CalendarDays className="relative z-[2] h-[18px] w-[18px]" strokeWidth={2.3} aria-hidden="true" />
+          </span>
         )}
-      </div>
 
-      {/* List for both Desktop and Mobile */}
+        {/* How many share this spot: a small aqua gel bubble */}
+        {isStack && (
+          <span
+            className="aero-gel absolute -right-1.5 -top-1.5 z-[3] flex h-5 min-w-5 items-center justify-center px-1 text-[10px] font-bold leading-none"
+            style={{ animation: 'stackBadgePop 400ms cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+            aria-hidden="true"
+          >
+            {stackCount}
+          </span>
+        )}
+      </button>
+
       {isStack && (
         <MarkerList
           pins={pins}

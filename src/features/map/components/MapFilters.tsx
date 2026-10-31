@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useMapStore } from '@/stores/useMapStore';
@@ -6,6 +7,8 @@ import { X, SlidersHorizontal } from 'lucide-react';
 
 // Filters content component (shared between mobile drawer and desktop)
 function FiltersContent() {
+  const typeId = useId();
+  const regionId = useId();
   const { data: regions } = useRegions();
   const {
     selectedRegion,
@@ -33,7 +36,7 @@ function FiltersContent() {
           variant="ghost"
           size="sm"
           onClick={clearFilters}
-          className="w-full h-11"
+          className="w-full"
         >
           <X className="w-4 h-4 mr-2" />
           Очистити фільтри
@@ -42,21 +45,23 @@ function FiltersContent() {
 
       {/* Type filters */}
       <div>
-        <label className="text-sm font-medium mb-2 block">Тип</label>
-        <div className="flex gap-2">
+        <span id={typeId} className="mb-2 block text-sm">Тип</span>
+        <div className="flex gap-2" role="group" aria-labelledby={typeId}>
           <Button
-            variant={selectedTypes.includes('ARTIST') ? 'default' : 'outline'}
+            variant="outline"
             size="sm"
+            aria-pressed={selectedTypes.includes('ARTIST')}
             onClick={() => toggleType('ARTIST')}
-            className="flex-1 min-h-[44px] text-sm"
+            className="flex-1 text-sm"
           >
             Артисти
           </Button>
           <Button
-            variant={selectedTypes.includes('EVENT') ? 'default' : 'outline'}
+            variant="outline"
             size="sm"
+            aria-pressed={selectedTypes.includes('EVENT')}
             onClick={() => toggleType('EVENT')}
-            className="flex-1 min-h-[44px] text-sm"
+            className="flex-1 text-sm"
           >
             Події
           </Button>
@@ -65,11 +70,12 @@ function FiltersContent() {
 
       {/* Region filter */}
       <div>
-        <label className="text-sm font-medium mb-2 block">Область</label>
+        <label htmlFor={regionId} className="mb-2 block text-sm">Область</label>
         <select
+          id={regionId}
           value={selectedRegion || ''}
           onChange={(e) => setRegion(e.target.value ? (e.target.value as typeof selectedRegion) : undefined)}
-          className="w-full min-h-[44px] px-3 py-2 bg-background border border-accent/20 rounded-soft text-sm touch-manipulation"
+          className="aero-field w-full min-h-[44px] px-3 py-2 text-sm touch-manipulation"
         >
           <option value="">Усі області</option>
           {regions?.map((region) => (
@@ -98,20 +104,21 @@ export function MapFilters({ isOpen = false, onOpenChange }: MapFiltersProps) {
       <div className="md:hidden">
         <Button
           onClick={() => onOpenChange?.(true)}
-          className="bg-background/95 hover:bg-background/100 text-foreground border border-accent/20 shadow-lg min-h-[56px] px-4"
+          variant="outline"
+          className="min-h-[48px] px-4 shadow-elegant"
           size="lg"
         >
-          <SlidersHorizontal className="w-5 h-5 mr-2" />
-          <span className="font-medium">Фільтри</span>
+          <SlidersHorizontal className="mr-1 !h-5 !w-5" />
+          <span>Фільтри</span>
           {hasActiveFilters && (
-            <span className="ml-2 bg-accent text-accent-foreground rounded-full w-2 h-2" />
+            <span className="ml-1 h-2.5 w-2.5 rounded-full bg-[var(--aero-grass)] shadow-[0_0_6px_rgba(95,191,42,0.9)]" aria-label="є активні фільтри" />
           )}
         </Button>
 
         <Sheet open={isOpen} onOpenChange={onOpenChange}>
           <SheetContent side="left" className="w-[85vw] sm:w-[400px]">
             <SheetHeader className="mb-6">
-              <SheetTitle className="font-heading text-xl">Фільтри карти</SheetTitle>
+              <SheetTitle className="text-xl">Фільтри карти</SheetTitle>
             </SheetHeader>
             <FiltersContent />
           </SheetContent>
@@ -119,11 +126,11 @@ export function MapFilters({ isOpen = false, onOpenChange }: MapFiltersProps) {
       </div>
 
       {/* Desktop: Always visible filters */}
-      <div className="hidden md:block bg-background/80 backdrop-blur-md border border-accent/20 rounded-card p-4 shadow-lg">
+      <div className="aero-glass hidden w-64 p-4 md:block">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-heading text-lg font-semibold">Фільтри</h3>
+          <h3 className="aero-heading text-lg">Фільтри</h3>
           {hasActiveFilters && (
-            <Button variant="ghost" size="sm" onClick={clearFilters} className="h-11">
+            <Button variant="ghost" size="sm" onClick={clearFilters}>
               <X className="w-4 h-4 mr-1" />
               <span className="text-sm">Очистити</span>
             </Button>
