@@ -33,7 +33,9 @@ export function NewsPage() {
       <div className="container mx-auto px-4 py-8">
       {/* Header with Stats */}
       <div className="mb-8">
-        <h1 className="text-4xl font-heading font-bold mb-6">Новини</h1>
+        <div className="aero-glass px-5 py-4 md:px-6 mb-6">
+          <h1 className="text-4xl font-heading font-bold">Новини</h1>
+        </div>
 
         {/* Platform Stats */}
         {stats && (
@@ -74,7 +76,7 @@ export function NewsPage() {
       {/* Loading State */}
       {isLoading && page === 0 && (
         <div className="flex items-center justify-center py-20">
-          <div className="text-center">
+          <div className="aero-glass px-8 py-6 text-center" role="status">
             <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">Завантаження новин...</p>
           </div>
@@ -83,7 +85,7 @@ export function NewsPage() {
 
       {/* Error State */}
       {error && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
           <p className="text-sm text-muted-foreground">{error.message}</p>
         </div>
@@ -91,7 +93,7 @@ export function NewsPage() {
 
       {/* Empty State */}
       {!isLoading && !error && news.length === 0 && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-lg text-muted-foreground">Новин не знайдено</p>
         </div>
       )}

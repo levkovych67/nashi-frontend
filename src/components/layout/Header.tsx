@@ -19,21 +19,21 @@ export function Header() {
     <header className="aero-frame sticky top-0 z-50 w-full">
       <div className="container mx-auto flex h-16 items-center justify-between gap-3 px-4">
         {/* Logo: a glass orb with the map pin and a title that glows like a Vista caption */}
-        <Link to="/" className="flex min-w-0 items-center gap-2.5" aria-label="Наші — на головну">
+        <Link to="/" className="flex min-w-0 shrink-0 items-center gap-2.5" aria-label="Наші — на головну">
           <span className="aero-orb flex h-10 w-10 flex-none items-center justify-center">
             <MapPin className="relative z-[2] h-5 w-5" strokeWidth={2.4} aria-hidden="true" />
           </span>
           <span className="aero-glow-text truncate text-[22px] font-semibold leading-none text-[#0b2d55]">Наші</span>
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-4">
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Головне меню">
+        <div className="flex items-center gap-2 lg:gap-4">
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Головне меню">
             {NAV_LINKS.map(({ to, label }) => (
               <Link
                 key={to}
                 to={to}
                 aria-current={isCurrentPath(pathname, to) ? 'page' : undefined}
-                className="aero-hover-row aero-glow-text px-3 py-2 text-sm text-[#0b2d55]"
+                className="aero-hover-row aero-glow-text whitespace-nowrap px-3 py-2 text-sm text-[#0b2d55]"
               >
                 {label}
               </Link>

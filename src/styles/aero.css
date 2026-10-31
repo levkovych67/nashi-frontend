@@ -37,9 +37,10 @@
     --aero-frame-blur: blur(4px) saturate(150%);
     --aero-streaks: repeating-linear-gradient(54deg, rgba(255, 255, 255, 0) 0 46px, rgba(255, 255, 255, 0.13) 46px 62px,
       rgba(255, 255, 255, 0) 62px 118px, rgba(255, 255, 255, 0.07) 118px 126px, rgba(255, 255, 255, 0) 126px 210px);
-    /* Gel: a bright cap with a hard edge at the middle and light pooling at the bottom. */
-    --aero-gloss: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.18) 48%,
-      rgba(255, 255, 255, 0) 50%);
+    /* Gel: a bright cap with a hard edge and light pooling at the bottom. The cap ends at a third of the height so the
+       label, which sits across the middle, lies on the deep colour (tests/aero-contrast.test.mjs). */
+    --aero-gloss: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 33%,
+      rgba(255, 255, 255, 0) 35%);
     --aero-underglow: radial-gradient(ellipse 75% 55% at 50% 112%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
     /* Windows 7 list hover and selection (Explorer). */
     --aero-hover: linear-gradient(180deg, #fafbfd, #ebf3fd);
@@ -178,6 +179,15 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 8px rgba(120, 200, 255, 0.35);
   }
 
+  /* On the dark taskbar the link-blue ring would vanish: it turns white, with a dark rim around the start orb, whose top
+     half sits over the page. */
+  .aero-taskbar :focus-visible {
+    outline-color: #fff;
+  }
+  .aero-taskbar .aero-orb:focus-visible {
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), inset 0 -5px 9px rgba(140, 230, 255, 0.55), 0 0 0 6px #0a3f7e;
+  }
+
   /* An Aero window: a frame of tinted glass around a white client area. */
   .aero-window {
     background:
@@ -228,7 +238,7 @@
     border: 1px solid var(--gel-edge);
     border-radius: 999px;
     color: #fff;
-    background: var(--aero-gloss), var(--aero-underglow), linear-gradient(180deg, var(--gel-top), var(--gel));
+    background: var(--aero-gloss), var(--aero-underglow), linear-gradient(180deg, var(--gel-top), var(--gel) 38%);
     text-shadow: 0 1px 1px rgba(0, 30, 70, 0.55);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 1px 3px rgba(0, 40, 90, 0.35);
     transition: box-shadow var(--aero-glow-out) var(--aero-ease), filter var(--aero-glow-out) var(--aero-ease);
@@ -566,6 +576,13 @@
 /* Accessibility fallbacks sit in the components layer so they come after the base and component rules they override
    (this file is imported before @tailwind base, so unlayered rules here would lose on source order). */
 @layer components {
+  /* On touch screens the bubbles stand still: while the backdrop moves, every glass panel is re-blurred each frame. */
+  @media (hover: none) {
+    body::after {
+      animation: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     body::after,
     .aero-progress__bar::after {

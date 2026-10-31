@@ -101,7 +101,7 @@ export function MapFilters({ isOpen = false, onOpenChange }: MapFiltersProps) {
   return (
     <>
       {/* Mobile: Filter button + drawer */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <Button
           onClick={() => onOpenChange?.(true)}
           variant="outline"
@@ -126,7 +126,7 @@ export function MapFilters({ isOpen = false, onOpenChange }: MapFiltersProps) {
       </div>
 
       {/* Desktop: Always visible filters */}
-      <div className="aero-glass hidden w-64 p-4 md:block">
+      <div className="aero-glass hidden w-64 p-4 lg:block">
         <div className="flex items-center justify-between mb-4">
           <h3 className="aero-heading text-lg">Фільтри</h3>
           {hasActiveFilters && (

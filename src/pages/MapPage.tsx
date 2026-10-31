@@ -51,7 +51,7 @@ export function MapPage() {
 
       <div className="relative w-full h-[calc(100vh-4rem)] md:h-[calc(100vh-4rem)]" style={{ height: 'calc(100dvh - 4rem)' }}>
         {/* Filters */}
-        <div className="absolute bottom-20 left-2 md:bottom-4 md:left-4 z-10">
+        <div className="absolute bottom-20 left-2 z-10 lg:bottom-4 lg:left-4">
           <MapFilters isOpen={isFiltersOpen} onOpenChange={setIsFiltersOpen} />
         </div>
 

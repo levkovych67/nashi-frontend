@@ -18,7 +18,7 @@ export function SubmissionProgressWidget() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="fixed bottom-[calc(var(--aero-taskbar-height)+env(safe-area-inset-bottom)+1rem)] right-4 z-50 w-80 max-w-[calc(100vw-2rem)] md:bottom-6 md:right-6"
+          className="fixed bottom-[calc(var(--aero-taskbar-height)+env(safe-area-inset-bottom)+1rem)] right-4 z-50 w-80 max-w-[calc(100vw-2rem)] lg:bottom-6 lg:right-6"
           role="status"
           aria-live="polite"
         >

@@ -52,7 +52,7 @@ export function ArtistsListPage() {
         structuredData={structuredData}
       />
       <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div className="aero-glass px-5 py-4 md:px-6 mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h1 className="text-4xl font-heading font-bold">Артисти</h1>
 
         {/* Region Filter */}
@@ -81,7 +81,7 @@ export function ArtistsListPage() {
       {/* Initial Loading State */}
       {isLoading && (
         <div className="flex items-center justify-center py-20">
-          <div className="text-center">
+          <div className="aero-glass px-8 py-6 text-center" role="status">
             <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">Завантаження артистів...</p>
           </div>
@@ -90,7 +90,7 @@ export function ArtistsListPage() {
 
       {/* Error State */}
       {error && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
           <p className="text-sm text-muted-foreground">{error.message}</p>
         </div>
@@ -98,7 +98,7 @@ export function ArtistsListPage() {
 
       {/* Empty State */}
       {!isLoading && !error && artists.length === 0 && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-lg text-muted-foreground">Артистів не знайдено</p>
         </div>
       )}
@@ -119,7 +119,7 @@ export function ArtistsListPage() {
           {hasNextPage && (
             <div ref={sentinelRef} className="flex justify-center py-12">
               {isFetchingNextPage && (
-                <div className="text-center">
+                <div className="aero-glass px-8 py-6 text-center" role="status">
                   <div className="aero-spinner mx-auto mb-3 !h-10 !w-10" aria-hidden="true" />
                   <p className="text-sm text-muted-foreground">Завантаження...</p>
                 </div>
@@ -130,7 +130,7 @@ export function ArtistsListPage() {
           {/* End of List Indicator */}
           {!hasNextPage && artists.length > 0 && (
             <div className="text-center py-8">
-              <p className="text-sm text-muted-foreground">
+              <p className="aero-glass inline-block px-4 py-2 text-sm text-muted-foreground">
                 Це всі артисти {selectedRegion ? 'з обраної області' : ''}
               </p>
             </div>

@@ -40,7 +40,7 @@ export function MobileNav() {
     <>
       {/* The Windows 7 taskbar: dark glass along the bottom, the start orb in the middle */}
       <nav
-        className="aero-taskbar fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="aero-taskbar fixed bottom-0 left-0 right-0 z-50 pb-[env(safe-area-inset-bottom)] lg:hidden"
         aria-label="Головне меню"
       >
         <div className="relative flex h-16 items-center justify-around px-2">

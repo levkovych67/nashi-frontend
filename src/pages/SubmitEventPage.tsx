@@ -80,7 +80,7 @@ export function SubmitEventPage() {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
-      <div className="mb-6">
+      <div className="aero-glass px-5 py-4 md:px-6 mb-6">
         <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">Запропонувати подію</h1>
         <p className="text-muted-foreground">Додайте концерт або захід до нашої платформи</p>
       </div>

@@ -14,7 +14,7 @@ export function ArtistProfilePage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
+        <div className="aero-glass px-8 py-6 text-center" role="status">
           <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
           <p className="text-sm text-muted-foreground">Завантаження...</p>
         </div>
@@ -24,11 +24,13 @@ export function ArtistProfilePage() {
 
   if (error || !artist) {
     return (
-      <div className="container mx-auto px-4 py-20 text-center">
-        <h1 className="text-2xl font-heading mb-4">Артиста не знайдено</h1>
-        <Button asChild>
-          <Link to="/artists">Повернутися до списку</Link>
-        </Button>
+      <div className="container mx-auto px-4 py-20">
+        <div className="aero-glass mx-auto max-w-md px-8 py-8 text-center">
+          <h1 className="text-2xl font-heading mb-4">Артиста не знайдено</h1>
+          <Button asChild>
+            <Link to="/artists">Повернутися до списку</Link>
+          </Button>
+        </div>
       </div>
     );
   }

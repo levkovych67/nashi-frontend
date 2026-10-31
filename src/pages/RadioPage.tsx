@@ -43,7 +43,7 @@ export function RadioPage() {
       <div className="container mx-auto px-4 py-8">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="aero-glass px-5 py-4 md:px-6 mb-8">
           <h1 className="text-4xl font-heading font-bold mb-4">Наше Радіо</h1>
           <p className="text-muted-foreground">
             Слухайте кращу українську музику від незалежних артистів
@@ -51,7 +51,7 @@ export function RadioPage() {
         </div>
 
         {/* Region Filter */}
-        <div className="mb-8">
+        <div className="aero-glass mb-8 px-5 py-4 md:px-6">
           <label htmlFor="region-select" className="text-sm font-medium block mb-2">
             Область:
           </label>
@@ -73,7 +73,7 @@ export function RadioPage() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex items-center justify-center py-20">
-            <div className="text-center">
+            <div className="aero-glass px-8 py-6 text-center" role="status">
               <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
               <p className="text-sm text-muted-foreground">Завантаження треків...</p>
             </div>
@@ -82,7 +82,7 @@ export function RadioPage() {
 
         {/* Error State */}
         {error && (
-          <div className="text-center py-20">
+          <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
             <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
             <p className="text-sm text-muted-foreground">{error.message}</p>
           </div>
@@ -98,7 +98,7 @@ export function RadioPage() {
 
         {/* Empty State */}
         {!isLoading && !error && (!tracks || tracks.length === 0) && (
-          <div className="text-center py-20">
+          <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
             <p className="text-lg text-muted-foreground">
               {selectedRegion
                 ? 'Треків для цієї області не знайдено'

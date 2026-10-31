@@ -63,7 +63,7 @@ export function EventsPage() {
         structuredData={structuredData}
       />
       <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div className="aero-glass px-5 py-4 md:px-6 mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h1 className="text-4xl font-heading font-bold">Події</h1>
 
         {/* Region Filter */}
@@ -93,7 +93,7 @@ export function EventsPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex items-center justify-center py-20">
-          <div className="text-center">
+          <div className="aero-glass px-8 py-6 text-center" role="status">
             <div className="aero-spinner mx-auto mb-4" aria-hidden="true" />
             <p className="text-sm text-muted-foreground">Завантаження подій...</p>
           </div>
@@ -102,7 +102,7 @@ export function EventsPage() {
 
       {/* Error State */}
       {error && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-[var(--aero-danger)] mb-2">Помилка завантаження</p>
           <p className="text-sm text-muted-foreground">{error.message}</p>
         </div>
@@ -110,7 +110,7 @@ export function EventsPage() {
 
       {/* Empty State */}
       {!isLoading && !error && (!allEvents || allEvents.length === 0) && (
-        <div className="text-center py-20">
+        <div className="aero-glass mx-auto my-12 max-w-md px-8 py-6 text-center">
           <p className="text-lg text-muted-foreground">Подій не знайдено</p>
         </div>
       )}
@@ -131,7 +131,7 @@ export function EventsPage() {
           {/* Infinite Scroll Sentinel */}
           {hasMore && (
             <div ref={sentinelRef} className="flex justify-center py-12">
-              <div className="text-center">
+              <div className="aero-glass px-8 py-6 text-center" role="status">
                 <div className="aero-spinner mx-auto mb-3 !h-10 !w-10" aria-hidden="true" />
                 <p className="text-sm text-muted-foreground">Завантаження...</p>
               </div>
@@ -141,7 +141,7 @@ export function EventsPage() {
           {/* End of List Indicator */}
           {!hasMore && visibleEvents.length > 0 && (
             <div className="text-center py-8">
-              <p className="text-sm text-muted-foreground">
+              <p className="aero-glass inline-block px-4 py-2 text-sm text-muted-foreground">
                 Показано всі події {selectedRegion ? 'з обраної області' : ''}
               </p>
             </div>

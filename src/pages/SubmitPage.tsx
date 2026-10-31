@@ -7,7 +7,7 @@ export function SubmitPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="aero-glass mb-12 px-6 py-6 text-center">
           <h1 className="text-4xl font-heading font-bold mb-3">Запропонувати</h1>
           <p className="text-muted-foreground text-lg">
             Оберіть, що ви хочете додати до платформи
